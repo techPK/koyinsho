@@ -1,6 +1,9 @@
 Koyinsho::Application.routes.draw do
-  resources :members
 
+  resources :members
+  match "about" => "housekeeping#about"
+  match "contact" => "housekeeping#contact"
+  root to:"housekeeping#home"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

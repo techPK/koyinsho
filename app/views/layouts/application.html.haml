@@ -1,0 +1,27 @@
+!!! 5
+%html{lang:"en"}
+  %head
+    %title="Koyinsho | #{yield(:title)}"
+    = stylesheet_link_tag    "application", :media => "all"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+    <!--[if lt IE 9]>
+    %script{src:"http://html5shim.googlecode.com/svn/trunk/html5.js"}
+    <![endif]-->
+
+  %body
+    %header.navbar.navbar-fixed-top
+      .navbar-inner
+        = link_to "Koyinsho", 'http://ww.koyinsho.com/', title:"Koyinsho.com (home)",class:"brand"
+        .container
+          %nav
+            %ul.nav.pull-left
+              %li{class:"#{'active' if yield(:title) == "Licensees"}"}= link_to "Licensees", '#', title:"Find Licensed Contractors"
+              %li{class:"#{'active' if yield(:title) == "Owners"}"}= link_to "Owners", '#', title:"Find Property Owners"
+            %ul.nav.pull-right
+              %li= link_to "Sign-in", '#', title:"Member sign-in (prompt)"
+              %li.divider-vertical
+              %li{class:"#{'active' if yield(:title) == "About"}"}= link_to "About", about_path, title:"About us"
+              %li{class:"#{'active' if yield(:title) == "Contact"}"}= link_to "Contact",contact_path, title:"Contact us"
+    .container= yield
+          
