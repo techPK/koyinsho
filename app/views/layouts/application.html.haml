@@ -12,16 +12,34 @@
   %body
     %header.navbar.navbar-fixed-top
       .navbar-inner
-        = link_to "Koyinsho", 'http://ww.koyinsho.com/', title:"Koyinsho.com (home)",class:"brand"
+        = link_to "Koyinsho", root_path, title:"Koyinsho.com (home)",class:"brand"
         .container
           %nav
             %ul.nav.pull-left
-              %li{class:"#{'active' if yield(:title) == "Licensees"}"}= link_to "Licensees", '#', title:"Find Licensed Contractors"
-              %li{class:"#{'active' if yield(:title) == "Owners"}"}= link_to "Owners", '#', title:"Find Property Owners"
+              %li.dropdown
+                %a.dropdown-toggle{title:"Tutorials and other learning references.", 'data-toggle' => "dropdown", id:"mLabel1", role:"button", 'data-target' => "#"} Learn 
+                %ul.dropdown-menu{role:"menu", 'aria-labelledby' => "mLabel1"}
+                  %li= link_to "Amazon", '#', title:"Our Amazon Recommendations.", tabindex:"-1"
+                  %li= link_to "Disqus", '#', title:"Our Property Management discussions.", tabindex:"-1"
+              %li.dropdown
+                %a.dropdown-toggle{title:"Find Business Partners.", 'data-toggle' => "dropdown", id:"mLabel2", role:"button", 'data-target' => "#"} Search 
+                %ul.dropdown-menu{role:"menu", 'aria-labelledby' => "mLabel2"}
+                  %li= link_to "Owners", '#', title:"Find Property Owners.", tabindex:"-1"
+                  %li= link_to "Agents", '#', title:"Find Legal Representatives.", tabindex:"-1"
+                  %li= link_to "Contractors", '#', title:"Find Licensed Contractors.", tabindex:"-1"
+                  %li= link_to "Suppliers", '#', title:"Find Sellers of products and unlicensed services.", tabindex:"-1"
             %ul.nav.pull-right
-              %li= link_to "Sign-in", '#', title:"Member sign-in (prompt)"
+              %li{class:"#{'active' if yield(:title) == "About"}"}= link_to "About", about_path, title:"All about Koyinsho services."
+              %li{class:"#{'active' if yield(:title) == "Contact"}"}= link_to "Contact",contact_path, title:"Ask about concerns and give comments."
               %li.divider-vertical
-              %li{class:"#{'active' if yield(:title) == "About"}"}= link_to "About", about_path, title:"About us"
-              %li{class:"#{'active' if yield(:title) == "Contact"}"}= link_to "Contact",contact_path, title:"Contact us"
+              %li.dropdown
+                %a.dropdown-toggle{title:"Managing your Koyinsho account.", 'data-toggle' => "dropdown", id:"mLabel9", role:"button", 'data-target' => "#"} Membership 
+                %ul.dropdown-menu{role:"menu", 'aria-labelledby' => "mLabel9"}
+                  %li= link_to "Sign-in", '#', title:"Access your Koyinsho member benefits.", tabindex:"-1"
+                  %li= link_to "Register", '#', title:"Become a Koyinsho member.", tabindex:"-1"
+                  %li= link_to "Sign-out", '#', title:"Protect from unauthorized access.", tabindex:"-1"
+                  %li= link_to "Account", '#', title:"Alter your Koyinsho membership.", tabindex:"-1"
+    -flash.each do |name, msg|
+      %div{class:"alert alert-#{name == :notice ? 'success' : 'error'}"}
+        %a.close{'data-dismiss' => 'alert'} &times;
     .container= yield
-          

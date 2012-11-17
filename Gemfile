@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.9'
 
 gem 'pg'
-gem 'bootstrap-sass', '~> 2.1' #Added first edit  
+  
 gem 'thin'   #Added first edit  
 
 # Gems used only for assets and not required
@@ -11,7 +11,7 @@ gem 'thin'   #Added first edit
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
-
+  gem 'bootstrap-sass', '~> 2.1' #Added first edit
   gem 'execjs'   #Added first edit in group :asset  
   gem 'therubyracer', :platforms => :ruby  #Uncomment first edit  in group :asset 
 

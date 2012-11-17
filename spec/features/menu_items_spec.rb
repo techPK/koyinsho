@@ -6,32 +6,77 @@ describe "menu items" do
     visit "/" #root
    end
 
+  it "must have 'Koyinsho' among them on root" do
+    page.should have_link('Koyinsho')
+  end
+
+  context "must have 'Learn" do
+
+    xit "' among them on root" do
+      click_link 'Learn'
+    end
+
+    it "/ Amazon' among them on root" do
+      click_link 'Amazon'
+    end
+
+    it "/ Disqus' among them on root" do
+      click_link 'Disqus'
+    end
+  end
+
+  context "must have 'Search /" do
+    it "Owners' among them on root" do
+      click_link 'Owners'
+    end
+
+    it "Agents' among them on root" do
+      click_link 'Agents'
+    end
+
+    it "Contractors' among them on root" do
+      click_link 'Contractors'
+    end
+
+    it "Suppliers' among them on root" do
+      click_link 'Suppliers'
+    end
+  end
+
   it "must have 'About' among them on root" do
   	click_link 'About'
   end
-  
+ 
+  xit "must have 'FAQ' among them on root" do
+    click_link 'FAQ'
+  end
+
   it "must have 'Contact' among them on root" do
   	click_link 'Contact'
   end
 
-  xit "must have 'FAQ' among them on root" do
-  	click_link 'FAQ'
-  end
+  context "must have 'Membership" do
 
-  it "must have 'Koyinsho' among them on root" do
-  	page.should have_link('Koyinsho')
-  end
+    xit "must have 'Membership' among them on root" do # unable to make a working test for this!!!
+      # page.should have_link('mLabel9')
+      click_link 'Membership'
+    end
 
-  xit "must have 'Learn' among them on root" do
-  	click_link 'Learn'
-  end
+    it "/ Sign-in' among them on root" do
+      click_link 'Sign-in'
+    end
 
-  xit "must have 'Search' among them on root" do
-  	click_link 'Search'
-  end
+    it "/ Register' among them on root" do
+      click_link 'Register'
+    end
 
-  it "must have 'Sign-in' or 'Sign-out' among them" do
-  	click_link 'Sign-in'
+    it "/ Sign-out' among them on root" do
+      click_link 'Sign-out'
+    end
+
+    it "/ Account' among them on root" do
+      click_link 'Account'
+    end
   end
 
 end
