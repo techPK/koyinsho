@@ -10,7 +10,7 @@
     <![endif]-->
 
   %body
-    %header.navbar.navbar-fixed-top
+    %header.navbar.navbar-fixed-top.navbar-inverse
       .navbar-inner
         = link_to "Koyinsho", root_path, title:"Koyinsho.com (home)",class:"brand"
         .container
@@ -28,18 +28,22 @@
                   %li= link_to "Agents", '#', title:"Find Legal Representatives.", tabindex:"-1"
                   %li= link_to "Contractors", '#', title:"Find Licensed Contractors.", tabindex:"-1"
                   %li= link_to "Suppliers", '#', title:"Find Sellers of products and unlicensed services.", tabindex:"-1"
+              %li{class:"#{'active' if yield(:title) == "Dashboard"}"}= link_to "Dashboard", "#", title:"View summarized decision-making data."
             %ul.nav.pull-right
               %li{class:"#{'active' if yield(:title) == "About"}"}= link_to "About", about_path, title:"All about Koyinsho services."
               %li{class:"#{'active' if yield(:title) == "Contact"}"}= link_to "Contact",contact_path, title:"Ask about concerns and give comments."
               %li.divider-vertical
               %li.dropdown
-                %a.dropdown-toggle{title:"Managing your Koyinsho account.", 'data-toggle' => "dropdown", id:"mLabel9", role:"button", 'data-target' => "#"} Membership 
+                %a.dropdown-toggle{title:"Manage your Koyinsho account.", 'data-toggle' => "dropdown", id:"mLabel9", role:"button", 'data-target' => "#"} Membership 
                 %ul.dropdown-menu{role:"menu", 'aria-labelledby' => "mLabel9"}
-                  %li= link_to "Sign-in", '#', title:"Access your Koyinsho member benefits.", tabindex:"-1"
-                  %li= link_to "Register", '#', title:"Become a Koyinsho member.", tabindex:"-1"
-                  %li= link_to "Sign-out", '#', title:"Protect from unauthorized access.", tabindex:"-1"
-                  %li= link_to "Account", '#', title:"Alter your Koyinsho membership.", tabindex:"-1"
+                  - if !current_user
+                    %li= link_to "Sign-in", signin_path, title:"Access your Koyinsho member benefits.", tabindex:"-1"
+                    %li= link_to "Sign-up", signup_path, title:"Become a Koyinsho member.", tabindex:"-1"
+                  - else
+                    %li= link_to "Sign-out", signout_path, title:"Protect from unauthorized access.", tabindex:"-1"
+                    %li= link_to "Account", '#', title:"Alter your Koyinsho membership.", tabindex:"-1"
     -flash.each do |name, msg|
       %div{class:"alert alert-#{name == :notice ? 'success' : 'error'}"}
+        = msg
         %a.close{'data-dismiss' => 'alert'} &times;
     .container= yield

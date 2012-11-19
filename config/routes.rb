@@ -1,6 +1,13 @@
 Koyinsho::Application.routes.draw do
 
+  get "signout" => "sessions#destroy", as:"signout"
+  get "signin" => "sessions#new", as:"signin"
+
+  get "signup" => "members#new", as: "signup"
+
   resources :members
+  resources :sessions
+  
   match "about" => "housekeeping#about"
   match "contact" => "housekeeping#contact"
   root to:"housekeeping#home"

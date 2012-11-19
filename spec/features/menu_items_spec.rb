@@ -55,6 +55,11 @@ describe "menu items" do
   	click_link 'Contact'
   end
 
+  it "must have 'Dashboard' among them on root" do
+    click_link 'Dashboard'
+  end
+
+
   context "must have 'Membership" do
 
     xit "must have 'Membership' among them on root" do # unable to make a working test for this!!!
@@ -66,8 +71,8 @@ describe "menu items" do
       click_link 'Sign-in'
     end
 
-    it "/ Register' among them on root" do
-      click_link 'Register'
+    it "/ Sign-up' among them on root" do
+      click_link 'Sign-up'
     end
 
     it "/ Sign-out' among them on root" do

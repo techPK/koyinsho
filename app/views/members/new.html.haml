@@ -1,5 +1,23 @@
-%h1 New member
-
-= render 'form'
-
-= link_to 'Back', members_path
+= form_for @member do |m|
+  - if @member.errors.any?
+    .error_messages
+      %h2 Form is invalid
+      %ul
+        - for message in @member.errors.full_messages
+          %li=message
+  .field
+    = m.label :first_name
+    = m.text_field :first_name
+  .field
+    = m.label :last_name
+    = m.text_field :last_name
+  .field
+    = m.label :email
+    = m.text_field :email
+  .field
+    = m.label :password
+    = m.password_field :password
+  .field
+    = m.label :password_confirmation
+    = m.password_field :password_confirmation
+  .actions= m.submit "Request Membership"

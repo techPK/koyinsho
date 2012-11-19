@@ -11,14 +11,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121115015329) do
+ActiveRecord::Schema.define(:version => 20121119082918) do
 
   create_table "members", :force => true do |t|
-    t.string   "email"
-    t.integer  "visits"
-    t.string   "name_full"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "username"
+    t.string   "email",                        :null => false
+    t.string   "crypted_password"
+    t.string   "salt"
+    t.string   "roles"
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
+    t.string   "remember_me_token"
+    t.datetime "remember_me_token_expires_at"
   end
+
+  add_index "members", ["remember_me_token"], :name => "index_members_on_remember_me_token"
 
 end

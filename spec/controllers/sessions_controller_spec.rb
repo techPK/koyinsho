@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MembersController do
+describe SessionsController do
 
   describe "GET 'new'" do
     it "returns http success" do

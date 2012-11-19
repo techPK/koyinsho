@@ -6,25 +6,27 @@ gem 'pg'
   
 gem 'thin'   #Added first edit  
 
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
-  gem 'bootstrap-sass', '~> 2.1' #Added first edit
-  gem 'execjs'   #Added first edit in group :asset  
-  gem 'therubyracer', :platforms => :ruby  #Uncomment first edit  in group :asset 
-
-  gem 'uglifier', '>= 1.0.3'
-end
-
-gem 'jquery-rails'
-
 # group :development do #Added first edit  
   gem 'haml-rails'  
   gem 'hpricot'  
   gem 'ruby_parser'  
 #end
+
+gem 'sorcery'
+
+# Gems used only for assets and not required
+# in production environments by default.
+group :assets do
+  gem 'execjs'   #Added first edit in group :asset  
+  gem 'therubyracer', :platforms => :ruby  #Uncomment first edit  in group :asset 
+  gem 'sass-rails',   '~> 3.2.3'
+  gem 'coffee-rails', '~> 3.2.1'
+  gem 'bootstrap-sass', '~> 2.2.1.0' #Added first edit
+  gem 'uglifier', '>= 1.0.3'
+end
+
+gem 'jquery-rails'
+
 
 
 group :development, :test do
