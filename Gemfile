@@ -33,7 +33,7 @@ group :development, :test do
   gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i  
   # gem "foreman", "~> 0.51.0"  
   gem "rspec-rails", "~> 2.10.1"    # includes RSpec with some extra Rails-specific features
-  gem "factory_girl_rails", "~> 3.2.0" # replaces Rails’ default fixtures for feeding test data
+  gem "factory_girl_rails", "~> 4.0" # replaces Rails’ default fixtures for feeding test data
   # gem "guard-rspec", "~> 0.7.0" # auto runs tests and runs specs when code changes.
 end
 
