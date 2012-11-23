@@ -4,7 +4,7 @@ FactoryGirl.define do
   factory :member do
     last_name "Doe"
     first_name "John"
-    email "john.doe@example.com"
+    sequence(:email) { |n| "john.doe.#{n}@example.com" }
     password 'secret'
     #password_confirmation 'secret'
     crypted_password Sorcery::CryptoProviders::BCrypt.encrypt("secret", 

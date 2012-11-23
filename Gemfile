@@ -27,6 +27,7 @@ end
 
 gem 'jquery-rails'
 
+gem 'validates_email_format_of', git:'git://github.com/alexdunae/validates_email_format_of.git'
 
 
 group :development, :test do

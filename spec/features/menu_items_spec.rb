@@ -60,27 +60,54 @@ describe "menu items" do
   end
 
 
-  context "must have 'Membership" do
+  context "when user is NOT signed-on" do
 
     xit "must have 'Membership' among them on root" do # unable to make a working test for this!!!
       # page.should have_link('mLabel9')
       click_link 'Membership'
     end
 
-    it "/ Sign-in' among them on root" do
-      click_link 'Sign-in'
+    it "include 'Sign-in'" do
+      page.should have_link('Sign-in')
     end
 
-    it "/ Sign-up' among them on root" do
-      click_link 'Sign-up'
+    it "include 'Sign-up'" do
+      page.should have_link('Sign-up')
+    end
+    
+    it "NOT include 'Sign-out'" do
+      page.should_not have_link('Sign-out')
     end
 
-    it "/ Sign-out' among them on root" do
-      click_link 'Sign-out'
+    it "NOT include 'Account'" do
+      page.should_not have_link('Account')
+    end
+  end
+
+  context "when user is signed-on" do
+    before(:each) do
+      FactoryGirl.create(:member,email:'m.mike@micky.info')
+      visit "/signin"
+      fill_in('Email', with:'m.mike@micky.info')
+      fill_in('Password', with:'secret')
+      click_button('Sign in')
+      # page.should have_text('Logged in!')
     end
 
-    it "/ Account' among them on root" do
-      click_link 'Account'
+    it "include 'Sign-in'" do
+      page.should_not have_link('Sign-in')
+    end
+
+    it "include 'Sign-up'" do
+      page.should_not have_link('Sign-up')
+    end
+    
+    it "NOT include 'Sign-out'" do
+      page.should have_link('Sign-out')
+    end
+
+    it "NOT include 'Account'" do
+      page.should have_link('Account')
     end
   end
 
