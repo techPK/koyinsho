@@ -25,22 +25,9 @@ describe "menu items" do
     end
   end
 
-  context "must have 'Search /" do
-    it "Owners' among them on root" do
-      click_link 'Owners'
-    end
-
-    it "Agents' among them on root" do
-      click_link 'Agents'
-    end
-
-    it "Contractors' among them on root" do
-      click_link 'Contractors'
-    end
-
-    it "Suppliers' among them on root" do
-      click_link 'Suppliers'
-    end
+  it "must have 'Search' among them on root" do
+    page.should have_link('Search')
+    click_link 'Search'
   end
 
   it "must have 'About' among them on root" do
@@ -86,12 +73,12 @@ describe "menu items" do
 
   context "when user is signed-on" do
     before(:each) do
-      FactoryGirl.create(:member,email:'m.mike@micky.info')
+      FactoryGirl.create(:member,email:'x.mike@micky.info')
       visit "/signin"
-      fill_in('Email', with:'m.mike@micky.info')
+      fill_in('Email', with:'x.mike@micky.info')
       fill_in('Password', with:'secret')
       click_button('Sign in')
-      # page.should have_text('Logged in!')
+      page.should have_content('Logged in!')
     end
 
     it "include 'Sign-in'" do

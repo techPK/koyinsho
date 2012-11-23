@@ -1,0 +1,103 @@
+.container
+	%p 
+		%form.form-horizontal{name:'search'}
+			Consider only Properties with these attribributes
+			.control-group
+				%label.control-label{for:'inputBorough'} Borough
+				.controls
+					%select{id:'inputBorough', name:'borough'}
+						%option{selected:'selected'} 
+						%option Bronx
+						%option Brooklyn
+						%option Manhattan
+						%option Queens
+						%option Staten Island
+			.control-group
+				%label.control-label{for:'inputBlock'} Block
+				.controls
+					%input{type:"text", id:'inputBlock', placeholder:"Block Number", name:'block'}
+			.control-group
+				%label.control-label{for:'inputLot'} Lot
+				.controls
+					%input{type:"text", id:'inputLot', placeholder:"Lot Number", name:'lot', disabled:'disabled'}
+			.control-group
+				%label.control-label{for:'inputZipcode'} Zipcode
+				.controls
+					%input{type:"text", id:'inputZipcode', placeholder:"Needs autocomplete", name:'zipcode'}
+			.control-group
+				%label.control-label{for:'inputStreet'} Street
+				.controls
+					%input{type:"text", id:'inputStreet', placeholder:"Needs autocomplete", name:'street'}
+			.control-group
+				%label.control-label{for:'inputAddressNumber'} Address-Number
+				.controls
+					%input{type:"text", id:'inputAddressNumber', placeholder:"Needs autocomplete", name:'address_number', disabled:'disabled'}
+			.control-group
+				%label.control-label{for:'inputCommunity'} Community District
+				.controls
+					%input{type:"text", id:'inputCommunity', placeholder:"Needs Dropdown", name:'community_district'}
+			%br/
+			Select only Permittees with these Work Attributes
+			.control-group
+				%label.control-label{for:'inputLicenseeType'} Licensee Type
+				.controls
+					%select{type:"text", id:'inputLicenseeType', placeholder:"Needs Dropdown", name:'license_type'}						
+						%option=""
+						%option="ADMIN/NO WORK"
+						%option="DEMOLITION CONTRACTOR"
+						%option="FIRE SUPPRESSION CONTRACTOR"
+						%option="GENERAL CONTRACTOR"
+						%option="HOME IMPROVEMENT CONTRACTOR"
+						%option="MASTER PLUMBER"
+						%option="OIL BURNER INSTALLER"
+						%option="OWNER"
+						%option="SIGN HANGER"
+			.control-group
+				%label.control-label{for:'inputSortBy'} Sort Results By
+				.controls
+					%select{type:"text", id:'inputSortBy', name:'sort_by'}
+						%option=""
+						%option="Permittee"
+						%option="License-Type"
+						%option="Business-Name"
+						%option="Permit-Count"
+			.control-group
+				%label.control-label{for:'inputWorkType'} Property Work Type
+				.controls
+					%select{type:"text", id:'inputWorkType', name:"permit_type"}
+						%option{value:""}
+						%optgroup(label="ALTERATION")
+							%option(value="AL")="[all]"
+						%optgroup(label="DEMOLITION & REMOVAL")
+							%option(value="DM")="[all]"
+						%optgroup(label="New Building")
+							%option(value="NB")="[all]"
+						%optgroup(label="PLUMBING")
+							%option(value="PL")="[all]"
+						%optgroup(label="SIGN")
+							%option(value="SG")="[all]"
+						%optgroup(label="CONSTRUCTION EQUIPMENT")
+							%option(value="EQ")="[all]"
+							%option(value="EQ/CH")Chute
+							%option(value="EQ/FN")Fence
+							%option(value="EQ/OT")Other
+							%option(value="EQ/SF")Scaffold
+							%option(value="EQ/SH")Sidewalk shed
+						%optgroup(label="EQUIPMENT WORK")
+							%option(value="EW")="[all]"
+							%option(value="EW/BL")Boiler
+							%option(value="EW/FA")Fire Alarm
+							%option(value="EW/FB")Fuel Burning
+							%option(value="EW/FP")Fire Suppression
+							%option(value="EW/FS")Fuel Storage
+							%option(value="EW/MH")Mechanical/HVAC
+							%option(value="EW/OT")Other
+							%option(value="EW/SD")Stand pipe
+							%option(value="EW/SP")Sprinkler
+						%optgroup(label="FOUNDATION/EARTHWORK")
+							%option(value="FO")="[all]"
+							%option(value="FO/EA")Earthwork Only
+			%button.btn{type:"submit",formmethod:'get',formaction:searches_contractors_url,name:'work_type'} Find Contractors
+			%button.btn{type:"submit",formmethod:'get',formaction:searches_agents_url,name:'work_type'} Find Agents
+			%button.btn{type:"submit",formmethod:'get',formaction:searches_suppliers_url,name:'work_type'} Find Suppliers
+			%button.btn{type:"submit",formmethod:'get',formaction:searches_owners_url,name:'work_type'} Find Owners

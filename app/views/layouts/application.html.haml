@@ -21,13 +21,7 @@
                 %ul.dropdown-menu{role:"menu", 'aria-labelledby' => "mLabel1"}
                   %li= link_to "Amazon", '#', title:"Our Amazon Recommendations.", tabindex:"-1"
                   %li= link_to "Disqus", '#', title:"Our Property Management discussions.", tabindex:"-1"
-              %li.dropdown
-                %a.dropdown-toggle{title:"Find Business Partners.", 'data-toggle' => "dropdown", id:"mLabel2", role:"button", 'data-target' => "#"} Search 
-                %ul.dropdown-menu{role:"menu", 'aria-labelledby' => "mLabel2"}
-                  %li= link_to "Owners", '#', title:"Find Property Owners.", tabindex:"-1"
-                  %li= link_to "Agents", '#', title:"Find Legal Representatives.", tabindex:"-1"
-                  %li= link_to "Contractors", '#', title:"Find Licensed Contractors.", tabindex:"-1"
-                  %li= link_to "Suppliers", '#', title:"Find Sellers of products and unlicensed services.", tabindex:"-1"
+              %li{class:"#{'active' if yield(:title) == "Search"}"}= link_to "Search", searches_path, title:"Find Business Trading Partners."
               %li{class:"#{'active' if yield(:title) == "Dashboard"}"}= link_to "Dashboard", "#", title:"View summarized decision-making data."
             %ul.nav.pull-right
               %li{class:"#{'active' if yield(:title) == "About"}"}= link_to "About", about_path, title:"All about Koyinsho services."
