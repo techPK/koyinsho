@@ -30,6 +30,5 @@ describe Member do
 
   xit "must complete successfully"
 
-  xit "must be invalid without an email address"
   xit "must have a member_kind"
 end

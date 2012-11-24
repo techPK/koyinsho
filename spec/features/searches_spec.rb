@@ -90,13 +90,27 @@ describe "Searches" do
 	end
 
 	context "for all visitors" do
-		xit "must have a button for 'Find Contractors'"
-		xit "must have a button for 'Find Agents'"
-		xit "must have a button for 'Find Suppliers'"	
+		before(:each) do
+			visit "/searches"
+		end
+
+		it "must have a button for 'Find Contractors'" do
+			page.should have_button('Find Contractors')
+		end
+
+		it "must have a button for 'Find Agents'" do
+			page.should have_button('Find Agents')
+		end
+
+		it "must have a button for 'Find Suppliers'" do
+			page.should have_button('Find Suppliers')
+		end
 	end
 
 	context "for all non-signed-in visitors" do
-		xit "must NOT have a 'Find Owners' button"
+		it "must NOT have a 'Find Owners' button" do
+			page.should_not have_button('Find Owners')
+		end
 	end
 
 	context "for signed-in" do
@@ -111,19 +125,27 @@ describe "Searches" do
 		end
 
 		describe "Owners" do
-			xit "must NOT have a 'Find Owners' button"
+			xit "must NOT have a 'Find Owners' button" do
+				page.should_not have_button('Find Owners')
+			end
 		end		
 
 		describe "Agents" do
-			xit "must have a button for 'Find Owners'"	
+			xit "must have a button for 'Find Owners'" do
+				page.should have_button('Find Owners')
+			end
 		end
 
 		describe "Contractors" do
-			xit "must have a button for 'Find Owners'"	
+			xit "must have a button for 'Find Owners'" do
+				page.should have_button('Find Owners')
+			end	
 		end
 
 		describe "Suppliers" do
-			xit "must have a button for 'Find Owners'"	
+			xit "must have a button for 'Find Owners'"	do
+				page.should have_button('Find Owners')
+			end
 		end
 	end
 end

@@ -1,2 +1,24 @@
-%h1 Searches#contractors
-%p Find me in app/views/searches/contractors.html.haml
+.container
+	%p(color='blue')=@permits[:search]
+	%br/
+	.pagination-centered= # will_paginate @permits[:permittees], :renderer => BootstrapPagination::Sinatra
+	%br/
+	%table.table.table-striped
+		%tr
+			%th Permittee Name
+			%th Business Name
+			%th Phone #
+			%th License type
+			%th License number
+			%th Job Start
+			%th Job Expire
+		-@permits[:permittees].each do |permittee|
+			%tr
+				%td=permittee[:permittee_first_and_last_name]
+				%td=permittee[:permittee_business_name]
+				%td=permittee[:permittee_phone_number]
+				%td=permittee[:permittee_license_kind]
+				%td=permittee[:permittee_license_integer].to_i.to_s
+				%td=permittee[:job_start_date]
+				%td=permittee[:expiration_date]
+				%td=permittee[:permit_count]

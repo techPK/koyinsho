@@ -36,10 +36,10 @@ group :development, :test do
   gem "rspec-rails", "~> 2.10.1"    # includes RSpec with some extra Rails-specific features
   gem "factory_girl_rails", "~> 4.0" # replaces Rails’ default fixtures for feeding test data
   # gem "guard-rspec", "~> 0.7.0" # auto runs tests and runs specs when code changes.
+  gem "faker", "~> 1.0.1"   # generates valid data for tests.
 end
 
 group :test do
-  gem "faker", "~> 1.0.1"   # generates valid data for tests.
   gem "capybara", "~> 1.1.2"    # programmatically simulates your users’ web interactions.
   gem "database_cleaner", "~> 0.7.2"    # cleans data from the test database
   gem "launchy", "~> 2.1.0" # render the test in the web browser on-demand

@@ -1,2 +1,23 @@
-%h1 Searches#suppliers
-%p Find me in app/views/searches/suppliers.html.haml
+.container
+	%p(color='blue')=@suppliers[:search]
+	%br/
+	.pagination-centered= # will_paginate @suppliers[:suppliers], :renderer => BootstrapPagination::Sinatra
+	%br/
+	%table.table.table-striped
+		%tr
+			%th Contact Name
+			%th Business Name
+			%th Phone #
+			%th Supplier type
+			%th Street Address
+			%th City-State
+			%th Zipcode						
+		-@suppliers[:suppliers].each do |supplier|
+			%tr
+				%td=supplier[:supplier_full_name]
+				%td=supplier[:supplier_business_name]
+				%td=supplier[:supplier_phone_number]
+				%td=supplier[:supplier_kind]
+				%td=supplier[:supplier_street_address]
+				%td=supplier[:supplier_city_state]				
+				%td=supplier[:supplier_zip]

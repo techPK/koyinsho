@@ -1,2 +1,25 @@
-%h1 Searches#agents
-%p Find me in app/views/searches/agents.html.haml
+.container
+	%p(color='blue')=@agents[:search]
+	%br/
+	.pagination-centered= # will_paginate @agents[:licensees], :renderer => BootstrapPagination::Sinatra
+	%br/
+	%table.table.table-striped
+		%tr
+			%th Licensee Name
+			%th Business Name
+			%th Phone #
+			%th License type
+			-#%th License number
+			%th Street Address
+			%th City-State-Zipcode			
+			%th License Expire
+		-@agents[:licensees].each do |licensee|
+			%tr
+				%td=licensee[:licensee_full_name]
+				%td=licensee[:licensee_business_name]
+				%td=licensee[:licensee_phone_number]
+				%td=licensee[:licensee_license_kind]
+				-# %td=licensee[:licensee_license_integer]
+				%td=licensee[:licensee_street_address]
+				%td=licensee[:licensee_city_state_zip]				
+				%td=licensee[:licensee_expiration_date]
