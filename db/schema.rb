@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121119082918) do
+ActiveRecord::Schema.define(:version => 20121125035809) do
 
   create_table "members", :force => true do |t|
     t.string   "username"
@@ -26,5 +26,34 @@ ActiveRecord::Schema.define(:version => 20121119082918) do
   end
 
   add_index "members", ["remember_me_token"], :name => "index_members_on_remember_me_token"
+
+  create_table "permits", :force => true do |t|
+    t.string   "property_borough"
+    t.string   "property_block_number"
+    t.string   "property_lot_number"
+    t.string   "property_community_district_number"
+    t.string   "property_address_number"
+    t.string   "property_street"
+    t.string   "property_zipcode"
+    t.string   "owner_full_name"
+    t.string   "owner_business_name"
+    t.string   "owner_business_kind"
+    t.string   "owner_street_address"
+    t.string   "owner_city_state"
+    t.string   "owner_zipcode"
+    t.string   "owner_phone"
+    t.string   "permit_kind"
+    t.string   "permit_subkind"
+    t.string   "permit_expiration_date"
+    t.string   "licensee_full_name"
+    t.string   "licensee_business_name"
+    t.string   "licensee_license_kind"
+    t.string   "licensee_license_number"
+    t.string   "licensee_license_HIC_number"
+    t.string   "licensee_other_title"
+    t.string   "licensee_phone"
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+  end
 
 end
