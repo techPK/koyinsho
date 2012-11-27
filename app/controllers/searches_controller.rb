@@ -1,6 +1,8 @@
 class SearchesController < ApplicationController
   def index
-    # define @search_parameters
+    # define @search
+    # @search = {} unless params(:search)
+    # flash[:notice] = "[**Start**]\n#{@search.inspect}\n[**End**]"
 
   end
 

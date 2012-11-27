@@ -1,6 +1,64 @@
 class Permit < ActiveRecord::Base
   attr_accessible :property_block_number, :property_borough, :property_lot_number
   validates_uniqueness_of :permit_job_number
+  
+  def self.search_for_contractors(search_params={})
+    # Start ActiveRecord query
+    permit_select = 
+      " property_community_district_number" + 
+	  ", property_borough" + 
+      ", property_block_number" +
+      ", property_lot_number" + 
+      ", property_street" + 
+      ", property_zipcode" + 
+      ", permit_kind" + 
+      ", permit_subkind" + 
+      ", licensee_full_name" + 
+      ", licensee_business_name" +
+      ", licensee_phone" +
+      ", licensee_license_kind" +
+      ", licensee_license_number" +
+      ", permit_expiration_date"
+    permits = Permit.select(permit_select)
+    contractors = {}
+    contractors[:search] = 'Given Search Parameter(s): '
+
+    temp_search = {}
+    search_params.each do |key,value| 
+      contractors[:search] += "#{key}:'#{value}'; "
+      case key
+        when :borough then permits = permits.where(property_borough:value)
+        when :block then permits = permits.where(property_block_number:value)
+        when :lot then permits = permits.where(property_lot_number:value)
+        when :zipcode then permits = permits.where(property_zipcode:value)
+        when :street then permits = permits.where("lower(property_street) = '#{value.downcase}'")
+        when :address_number then permits = permits.where(property_address_number:value)
+        when :community_district then permits = permits.where(property_community_district_number:value)
+        when :license_type then permits = permits.where(licensee_license_kind:value)
+        when :sort_by
+          case value
+            when "Contractor"     then permits = permits.order(
+              "licensee_full_name, licensee_license_kind, permit_expiration_date DESC")
+            when "License-Type"  then permits = permits.order(
+              "licensee_license_kind, licensee_business_name, licensee_full_name, permit_expiration_date DESC")
+            when "Business-Name" then permits = permits.order(
+              "licensee_business_name, licensee_license_kind, licensee_full_name, permit_expiration_date DESC")
+          #  when "Permit-Count"  then permits = permits.where(?:value)
+          end
+        when :permit_type
+          permits = permits.where(permit_kind:value[0,2])
+          permits = permits.where(permit_subkind:value[3,2]) if value.size > 2
+        else
+          puts "else>>>#{key}:#{value}|<<<"
+      end
+    end 
+    # contractors[:permits] = permits 
+    permits		
+  end
+  
+  def self.search_for_owners(search_params={})
+
+  end
 
   def self.borough_check(borough_text, borough_zipcode, borough_community_district)
     borough_id =

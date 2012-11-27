@@ -18,7 +18,7 @@ FactoryGirl.define do
     owner_phone {Faker::PhoneNumber.phone_number}
     permit_kind "EW"
     sequence(:permit_subkind) {|n| ((n % 2) != 0)? "OT" : "MH" }
-    permit_expiration_date "12/31/2015"
+    permit_expiration_date "2015/12/31" # permit_expiration_date needs to be in a date format
     sequence(:licensee_full_name) {|n| ((n % 4) != 0)? "MALIK, TARIQ M" : "CALISTO, MICHAEL" }
     sequence(:licensee_business_name) {|n| ((n % 4) != 0)? "ALLIED REST CORP" : "DMC PLUMBING CORP" }
     sequence(:licensee_license_kind) {|n| ((n % 4) != 0)? "GENERAL CONTRACTOR" : "MASTER PLUMBER" }
