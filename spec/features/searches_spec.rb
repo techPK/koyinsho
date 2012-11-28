@@ -2,8 +2,6 @@ require 'spec_helper'
 include Capybara::DSL
 
 describe "Searches" do
-
-
 	context "webpage" do
 		before(:each) do
 			visit "/searches"
@@ -11,7 +9,7 @@ describe "Searches" do
 
 		it "must allow selection of 'Borough'" do
 			#find_field('Borough').find('option')
-			select 'Bronx'
+			select('Bronx', :from => 'Borough')
 			select 'Brooklyn'
 			select 'Manhattan'
 			select 'Queens'
@@ -62,30 +60,30 @@ describe "Searches" do
             select 'Permit-Count'
 		end
 
-		xit "must allow entry of 'permit_type'" do
-            select 'AL'
-            select 'DM'
-          #  select 'NB'
-            select 'PL'
-          #  select 'SG'
-          #  select 'EQ'
-          #  select 'EQ/CH'
-          #  select 'EQ/FN'
-          #  select 'EQ/OT'
-            select 'EQ/SF'
-            select 'EQ/SH'
-            select 'EW'
-            select 'EW/BL'
-            select 'EW/FA'
-            select 'EW/FB'
-            select 'EW/FP'
-            select 'EW/FS'
-            select 'EW/MH'
-            select 'EW/OT'
-            select 'EW/SD'
-            select 'EW/SP'
-            select 'FO'
-            select 'FO/EA'
+		it "must allow entry of 'permit_type'" do
+            page.should have_xpath "//select[@name='permit_type']/optgroup[@label='ALTERATION']/option[@value='AL']"
+            page.should have_xpath "//select[@name='permit_type']/optgroup[@label='DEMOLITION & REMOVAL']/option[@value='DM']"
+			page.should have_xpath "//select[@name='permit_type']/optgroup[@label='New Building']/option[@value='NB']"
+			page.should have_xpath "//select[@name='permit_type']/optgroup[@label='PLUMBING']/option[@value='PL']"
+			page.should have_xpath "//select[@name='permit_type']/optgroup[@label='SIGN']/option[@value='SG']"
+			page.should have_xpath "//select[@name='permit_type']/optgroup[@label='CONSTRUCTION EQUIPMENT']/option[@value='EQ']"
+			page.should have_xpath "//select[@name='permit_type']/optgroup[@label='CONSTRUCTION EQUIPMENT']/option[@value='EQ/CH']"
+			page.should have_xpath "//select[@name='permit_type']/optgroup[@label='CONSTRUCTION EQUIPMENT']/option[@value='EQ/FN']"
+			page.should have_xpath "//select[@name='permit_type']/optgroup[@label='CONSTRUCTION EQUIPMENT']/option[@value='EQ/OT']"
+			page.should have_xpath "//select[@name='permit_type']/optgroup[@label='CONSTRUCTION EQUIPMENT']/option[@value='EQ/SF']"
+			page.should have_xpath "//select[@name='permit_type']//option[@value='EQ/SH']"
+            page.should have_xpath "//select[@name='permit_type']/optgroup[@label='EQUIPMENT WORK']/option[@value='EW']"
+			page.should have_xpath "//select[@name='permit_type']//option[@value='EW/BL']"
+			page.should have_xpath "//select[@name='permit_type']//option[@value='EW/FA']"
+			page.should have_xpath "//select[@name='permit_type']//option[@value='EW/FB']"
+			page.should have_xpath "//select[@name='permit_type']//option[@value='EW/FP']"
+			page.should have_xpath "//select[@name='permit_type']//option[@value='EW/FS']"
+			page.should have_xpath "//select[@name='permit_type']//option[@value='EW/MH']"
+			page.should have_xpath "//select[@name='permit_type']//option[@value='EW/OT']"
+			page.should have_xpath "//select[@name='permit_type']//option[@value='EW/SD']"
+			page.should have_xpath "//select[@name='permit_type']//option[@value='EW/SP']"
+			page.should have_xpath "//select[@name='permit_type']/optgroup[@label='FOUNDATION/EARTHWORK']/option[@value='FO']"
+			page.should have_xpath "//select[@name='permit_type']//option[@value='FO/EA']"
 		end
 	end
 
@@ -147,5 +145,23 @@ describe "Searches" do
 				page.should have_button('Find Owners')
 			end
 		end
+
+		it "must give error when Block is given without Borough" do
+		  fill_in 'Block', with:'1000'
+		  # click_button "Find Contractors"
+		  find_by_id('contractors').click
+		  uri = URI.parse(current_url)
+		  uri.path.should == '/searches'
+		  page.should have_xpath "/html/head[title='Koyinsho | Search']"
+		end
+
+		it "must give error when Lot is given without Block"  do
+		  fill_in 'Lot', with:'91000'
+		  click_button('Find Contractors')
+		  uri = URI.parse(current_url)
+		  uri.path.should == '/searches'
+		  page.should have_xpath "/html/head[title='Koyinsho | Search']"
+		end
+
 	end
 end

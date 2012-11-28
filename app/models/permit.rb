@@ -27,15 +27,15 @@ class Permit < ActiveRecord::Base
     search_params.each do |key,value| 
       contractors[:search] += "#{key}:'#{value}'; "
       case key
-        when :borough then permits = permits.where(property_borough:value)
-        when :block then permits = permits.where(property_block_number:value)
-        when :lot then permits = permits.where(property_lot_number:value)
-        when :zipcode then permits = permits.where(property_zipcode:value)
-        when :street then permits = permits.where("lower(property_street) = '#{value.downcase}'")
-        when :address_number then permits = permits.where(property_address_number:value)
-        when :community_district then permits = permits.where(property_community_district_number:value)
-        when :license_type then permits = permits.where(licensee_license_kind:value)
-        when :sort_by
+        when :borough.to_s then permits = permits.where(property_borough:value)
+        when :block.to_s then permits = permits.where(property_block_number:value)
+        when :lot.to_s then permits = permits.where(property_lot_number:value)
+        when :zipcode.to_s then permits = permits.where(property_zipcode:value)
+        when :street.to_s then permits = permits.where("lower(property_street) = '#{value.downcase}'")
+        when :address_number.to_s then permits = permits.where(property_address_number:value)
+        when :community_district.to_s then permits = permits.where(property_community_district_number:value)
+        when :license_type.to_s then permits = permits.where(licensee_license_kind:value)
+        when :sort_by.to_s
           case value
             when "Contractor"     then permits = permits.order(
               "licensee_full_name, licensee_license_kind, permit_expiration_date DESC")
@@ -45,7 +45,7 @@ class Permit < ActiveRecord::Base
               "licensee_business_name, licensee_license_kind, licensee_full_name, permit_expiration_date DESC")
           #  when "Permit-Count"  then permits = permits.where(?:value)
           end
-        when :permit_type
+        when :permit_type.to_s
           permits = permits.where(permit_kind:value[0,2])
           permits = permits.where(permit_subkind:value[3,2]) if value.size > 2
         else

@@ -1,5 +1,6 @@
 class SearchesController < ApplicationController
   def index
+    @search ||= {}
     # define @search
     # @search = {} unless params(:search)
     # flash[:notice] = "[**Start**]\n#{@search.inspect}\n[**End**]"
@@ -8,23 +9,19 @@ class SearchesController < ApplicationController
 
   def contractors #post
     temp1 = params.reject{|key,value| value == ""}
+
+    case temp1[:sort_by]
+      when "Contractor"     then permits_order =
+        "licensee_full_name, licensee_license_kind, permit_expiration_date DESC"
+      when "License-Type"  then permits_order =
+        "licensee_license_kind, licensee_business_name, licensee_full_name, permit_expiration_date DESC"
+      when "Business-Name" then permits_order =
+        "licensee_business_name, licensee_license_kind, licensee_full_name, permit_expiration_date DESC"
+    #  when "Permit-Count"  then permits = permits.where(?:value)
+    end
     @permits = {}
     @permits[:search] = temp1
-    @permits[:permittees] = Array.new
-    8.times do |count|
-      permittee = {}
-      permittee[:permittee_first_and_last_name] = 
-        "#{Faker::Name.last_name}, #{Faker::Name.first_name}"
-      permittee[:permittee_business_name] = Faker::Company.name
-      permittee[:permittee_phone_number] = Faker::PhoneNumber.phone_number
-      license_type = params[:license_type].blank? ? 'Electric Contractor' : params[:license_type]
-      permittee[:permittee_license_kind] =  license_type
-      permittee[:permittee_license_integer] = '01234567890'
-      permittee[:job_start_date] = '09/01/2006'
-      permittee[:expiration_date] = '10/30/2011'
-      permittee[:permit_count] = ((count % 3) + 1).to_s
-      @permits[:permittees] << permittee  
-    end
+    @permits[:permittees] = Permit.search_for_contractors(temp1).uniq.paginate(:page => params[:page], :per_page => 10)
     # flash[:notice] = "[**Start**]\n#{@permits.inspect}\n[**End**]"
     # get @search_parameters
   end

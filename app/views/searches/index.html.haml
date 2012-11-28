@@ -1,5 +1,6 @@
 .container
 	%p 
+		- provide(:title, 'Search')
 		%form.form-horizontal{name:'search'}
 			Consider only Properties with these attribributes
 			.control-group
@@ -97,7 +98,7 @@
 						%optgroup(label="FOUNDATION/EARTHWORK")
 							%option(value="FO")="[all]"
 							%option(value="FO/EA")Earthwork Only
-			%button.btn{type:"submit",formmethod:'post',formaction:searches_contractors_url,name:'work_type', title:"Find Licensed Contractors."} Find Contractors
-			%button.btn{type:"submit",formmethod:'post',formaction:searches_agents_url,name:'work_type', title:"Find Legal Representatives."} Find Agents
-			%button.btn{type:"submit",formmethod:'post',formaction:searches_suppliers_url,name:'work_type', title:"Find Sellers of products and unlicensed services."} Find Suppliers
-			%button.btn{type:"submit",formmethod:'post',formaction:searches_owners_url,name:'work_type', title:"Find Property Owners."} Find Owners
+			%button.btn#contractors{type:"submit",formmethod:'post',formaction:searches_contractors_url,name:'work_type', title:"Find Licensed Contractors."} Find Contractors
+			%button.btn#agents{type:"submit",formmethod:'post',formaction:searches_agents_url,name:'work_type', title:"Find Legal Representatives."} Find Agents
+			%button.btn#suppliers{type:"submit",formmethod:'post',formaction:searches_suppliers_url,name:'work_type', title:"Find Sellers of products and unlicensed services."} Find Suppliers
+			%button.btn#owners{type:"submit",formmethod:'post',formaction:searches_owners_url,name:'work_type', title:"Find Property Owners."} Find Owners

@@ -44,7 +44,7 @@ describe "Permit#search_for_contractors" do
 
 
   it "must return permit rows in the specified order" do
-  	search_params={sort_by:"Contractor"}
+  	search_params={:sort_by.to_s => "Contractor"}
   	permits = Permit.search_for_contractors(search_params)
   	permits.should_not be_nil
   	permits.count.should eq(4)
@@ -72,7 +72,7 @@ describe "Permit#search_for_contractors must return proper permit rows when sele
 
   it "block" do
   	value = "510"
-  	search_params={block:value}
+  	search_params={:block.to_s => value}
   	permits = Permit.search_for_contractors(search_params)
 		permits.should_not be_nil
 		permits.count.should eq(2)
@@ -82,7 +82,7 @@ describe "Permit#search_for_contractors must return proper permit rows when sele
 
   it "lot" do
   	value = "00230"
-  	search_params={block:'510', lot:value}
+  	search_params={:block.to_s => '510', :lot.to_s => value}
   	permits = Permit.search_for_contractors(search_params)
 	permits.count.should eq(1)
 	permits[0].property_lot_number.should eq(value)
@@ -91,24 +91,23 @@ describe "Permit#search_for_contractors must return proper permit rows when sele
 
   it "street" do
   	value = "Aloha Way"
-  	search_params={street:value}
+  	search_params={:street.to_s => value}
   	permits = Permit.search_for_contractors(search_params)
   	permits.count.should eq(1)
-	permits[0].property_street.should eq(value)
+	  permits[0].property_street.should eq(value)
   end
 
   it "community district" do
   	value = "407"
-  	search_params={community_district:value}
+  	search_params={:community_district.to_s => value}
   	permits = Permit.search_for_contractors(search_params)
   	permits.count.should eq(1)
-	permits[0].property_community_district_number.should eq(value)
-  
+	  permits[0].property_community_district_number.should eq(value)
   end
   
   it "license type" do
   	value = "MASTER PLANTER"
-  	search_params={license_type:value}
+  	search_params={:license_type.to_s => value}
   	permits = Permit.search_for_contractors(search_params)
   	permits.count.should eq(1)
 		permits[0].licensee_license_kind.should eq(value)
@@ -116,7 +115,7 @@ describe "Permit#search_for_contractors must return proper permit rows when sele
 
   it "borough" do
   	value = "Bronx"
-  	search_params={borough:value}
+  	search_params={:borough.to_s => value}
   	permits = Permit.search_for_contractors(search_params)
   	permits.count.should eq(1)
 		permits[0].property_borough.should eq(value)
@@ -124,7 +123,7 @@ describe "Permit#search_for_contractors must return proper permit rows when sele
   
   it "permit type" do
   	value = "EW/QZ"
-    search_params = {permit_type:value}	  	
+    search_params = {:permit_type.to_s => value}	  	
   	permits = Permit.search_for_contractors(search_params)
   	permits.count.should eq(1)
 	permits[0].permit_kind.should eq(value[0,2])
@@ -133,7 +132,7 @@ describe "Permit#search_for_contractors must return proper permit rows when sele
   
   it "zipcode" do
   	value = "11238"
-  	search_params={zipcode:value}
+  	search_params={:zipcode.to_s => value}
   	permits = Permit.search_for_contractors(search_params)
   	permits.count.should eq(1)
 	permits[0].property_zipcode.should eq(value)

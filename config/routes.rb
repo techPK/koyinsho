@@ -11,12 +11,17 @@ Koyinsho::Application.routes.draw do
   get "signup" => "members#new", as: "signup"
 
   resources :members
-  post "searches/contractors" => "searches#contractors"
-  post "searches/owners" => "searches#owners"
-  post "searches/agents" => "searches#agents"
-  post "searches/suppliers" => "searches#suppliers"
-
   resources :sessions
+  
+  post "searches/contractors" => "searches#contractors"
+  get  "searches/contractors" => "searches#contractors"
+  post "searches/owners" => "searches#owners"
+  get  "searches/owners" => "searches#owners"
+  post "searches/agents" => "searches#agents"
+  get  "searches/agents" => "searches#agents"
+  post "searches/suppliers" => "searches#suppliers"
+  get  "searches/suppliers" => "searches#suppliers"
+
   resources :searches
   
   get "about" => "housekeeping#about"
