@@ -1,29 +1,70 @@
 class SearchesController < ApplicationController
   def index
-    @search ||= {}
+    @search = params[:search]
     # define @search
     # @search = {} unless params(:search)
-    # flash[:notice] = "[**Start**]\n#{@search.inspect}\n[**End**]"
+    flash[:notice] = "[**Start**]\n#{params.inspect}\n[**End**]"
 
   end
 
   def contractors #post
-    temp1 = params.reject{|key,value| value == ""}
+    if params['search'].nil?
+      flash[:error] = 'Please specify search parameters'
+      redirect_to search_url
+    else
+      @search = params['search'].reject{|key,value| value == "" || value == "action" || value == "controller" }
+      msg = nil
 
-    case temp1[:sort_by]
-      when "Contractor"     then permits_order =
-        "licensee_full_name, licensee_license_kind, permit_expiration_date DESC"
-      when "License-Type"  then permits_order =
-        "licensee_license_kind, licensee_business_name, licensee_full_name, permit_expiration_date DESC"
-      when "Business-Name" then permits_order =
-        "licensee_business_name, licensee_license_kind, licensee_full_name, permit_expiration_date DESC"
-    #  when "Permit-Count"  then permits = permits.where(?:value)
-    end
-    @permits = {}
-    @permits[:search] = temp1
-    @permits[:permittees] = Permit.search_for_contractors(temp1).uniq.paginate(:page => params[:page], :per_page => 10)
+      if !@search['block'].blank?
+        if @search['borough'].blank?
+          msg = "'Block' requires 'Borough' to be entered"
+        end
+      end
+      if !@search['lot'].blank?
+        if @search['borough'].blank? || params['block'].blank?
+          msg = "'Lot' requires both 'Borough' and 'Block' to be entered"
+        end
+      end
+
+      if msg.blank?
+        msg = Permit.borough_check(
+          @search['borough'], @search['zipcode'], @search['community_district'])
+      end
+      if msg.present?
+        flash[:error] = msg
+        redirect_to searches_url
+      else
+        case @search['sort_by']
+          when "Licensee"     then permits_order =
+            "licensee_full_name, licensee_license_kind, max(permit_expiration_date) DESC"
+          when "License-Type"  then permits_order =
+            "licensee_license_kind, licensee_business_name, licensee_full_name, max(permit_expiration_date) DESC"
+          when "Business-Name" then permits_order =
+            "licensee_business_name, licensee_license_kind, licensee_full_name, max(permit_expiration_date) DESC"
+        #  when "Permit-Count"  then permits = permits.where(?:value)
+          else
+            permits_order = ''
+        end
+        
+        search_message = 'Given Search Parameter(s): '
+        @search.each {|key, value| search_message << "#{key}:'#{value}'; "}
+
+        @permits = {}
+        @permits[:search] = search_message
+
+        permittees = Permit.search_for_contractors(@search)
+        permittees = permittees.select("licensee_full_name").select("licensee_business_name").select("licensee_phone").select("licensee_license_kind").select("licensee_license_number")  
+        permittees = permittees.select("max(permit_expiration_date) as freshness_date")
+        permittees = permittees.group("licensee_full_name").group("licensee_business_name").group("licensee_phone").group("licensee_license_kind").group("licensee_license_number")
+        # permittees = permittees.uniq
+        permittees = permittees.order(permits_order) unless permits_order.blank?
+        @permits[:permittees] =  permittees.paginate(:page => params[:page], :per_page => 10)
+      end
+    end 
+
     # flash[:notice] = "[**Start**]\n#{@permits.inspect}\n[**End**]"
     # get @search_parameters
+    flash[:notice] = "[**Start**]\n#{params.inspect}\n[**End**]"
   end
 
   def owners #post

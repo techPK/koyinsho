@@ -5,13 +5,12 @@
 	%br/
 	%table.table.table-striped
 		%tr
-			%th Permittee Name
+			%th Licensee
 			%th Business Name
 			%th Phone #
 			%th License type
 			%th License number
-			%th Job Start
-			%th Job Expire
+			%th Freshness Date
 		-@permits[:permittees].each do |permittee|
 			%tr
 				%td=permittee[:licensee_full_name]
@@ -19,6 +18,4 @@
 				%td=permittee[:licensee_phone]
 				%td=permittee[:licensee_license_kind]
 				%td=permittee[:licensee_license_number]
-				%td=permittee[:job_start_date]
-				%td=permittee[:permit_expiration_date]
-				%td=permittee[:permit_count]
+				%td=permittee[:freshness_date]

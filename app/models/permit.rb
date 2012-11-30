@@ -4,28 +4,10 @@ class Permit < ActiveRecord::Base
   
   def self.search_for_contractors(search_params={})
     # Start ActiveRecord query
-    permit_select = 
-      " property_community_district_number" + 
-	  ", property_borough" + 
-      ", property_block_number" +
-      ", property_lot_number" + 
-      ", property_street" + 
-      ", property_zipcode" + 
-      ", permit_kind" + 
-      ", permit_subkind" + 
-      ", licensee_full_name" + 
-      ", licensee_business_name" +
-      ", licensee_phone" +
-      ", licensee_license_kind" +
-      ", licensee_license_number" +
-      ", permit_expiration_date"
-    permits = Permit.select(permit_select)
-    contractors = {}
-    contractors[:search] = 'Given Search Parameter(s): '
 
-    temp_search = {}
+    permits = Permit.scoped
+
     search_params.each do |key,value| 
-      contractors[:search] += "#{key}:'#{value}'; "
       case key
         when :borough.to_s then permits = permits.where(property_borough:value)
         when :block.to_s then permits = permits.where(property_block_number:value)
@@ -35,21 +17,11 @@ class Permit < ActiveRecord::Base
         when :address_number.to_s then permits = permits.where(property_address_number:value)
         when :community_district.to_s then permits = permits.where(property_community_district_number:value)
         when :license_type.to_s then permits = permits.where(licensee_license_kind:value)
-        when :sort_by.to_s
-          case value
-            when "Contractor"     then permits = permits.order(
-              "licensee_full_name, licensee_license_kind, permit_expiration_date DESC")
-            when "License-Type"  then permits = permits.order(
-              "licensee_license_kind, licensee_business_name, licensee_full_name, permit_expiration_date DESC")
-            when "Business-Name" then permits = permits.order(
-              "licensee_business_name, licensee_license_kind, licensee_full_name, permit_expiration_date DESC")
-          #  when "Permit-Count"  then permits = permits.where(?:value)
-          end
         when :permit_type.to_s
           permits = permits.where(permit_kind:value[0,2])
           permits = permits.where(permit_subkind:value[3,2]) if value.size > 2
         else
-          puts "else>>>#{key}:#{value}|<<<"
+          puts "[Permit.search_for_contractors] else>>>#{key}:#{value}|<<<"
       end
     end 
     # contractors[:permits] = permits 
@@ -78,7 +50,7 @@ class Permit < ActiveRecord::Base
     borough_id.each do |id, text, zip_prefixes|
       borough_check[:borough] = id if borough_text.present? && text.downcase == borough_text.downcase
       borough_check[:zipcode] = id if borough_zipcode.present? && zip_prefixes.include?(borough_zipcode.gsub(/\D/, '')[0,3].to_i)
-      end
+    end
     
     if borough_check.count < 1
       return nil
