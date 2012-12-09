@@ -1,5 +1,5 @@
 require 'spec_helper'
-include Capybara::DSL
+# include Capybara::DSL
 
 describe "Membership Sign-up" do
   before(:each) do
@@ -19,8 +19,8 @@ describe "Membership Sign-up" do
   	xit "must have roles Owner, Agent, Contractor, Supplier" do
   	end
   	it "must have password & password repeat" do
-  		fill_in "Password", with:"Wilma"
   		fill_in "Password confirmation", with:"Fred"
+      fill_in "Password", with:"Wilma"
   	end
   	it "must have a submit button" do
   		click_button "Request Membership"

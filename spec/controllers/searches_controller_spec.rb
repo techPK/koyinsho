@@ -11,7 +11,7 @@ describe SearchesController do
 
   describe "GET 'contractors'" do
     it "returns http success" do
-      get 'contractors'
+      get 'searches/contractors'
       response.should be_success
     end
   end

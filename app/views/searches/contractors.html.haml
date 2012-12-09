@@ -1,4 +1,5 @@
 .container
+	- provide(:title, 'Search | Contractors')
 	%p{style:"color:blue"}=@permits[:search]
 	%br/
 	.pagination-centered= will_paginate @permits[:permittees]
@@ -18,4 +19,4 @@
 				%td=permittee[:licensee_phone]
 				%td=permittee[:licensee_license_kind]
 				%td=permittee[:licensee_license_number]
-				%td=permittee[:freshness_date]
+				%td=permittee[:permit_issuance_date]

@@ -30,19 +30,19 @@ end
 gem 'jquery-rails'
 
 gem 'validates_email_format_of', git:'git://github.com/alexdunae/validates_email_format_of.git'
-
+gem 'roo'
 
 group :development, :test do
   gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i  
   # gem "foreman", "~> 0.51.0"  
-  gem "rspec-rails", "~> 2.10.1"    # includes RSpec with some extra Rails-specific features
+  gem "rspec-rails", "~> 2.12.0"    # includes RSpec with some extra Rails-specific features
   gem "factory_girl_rails", "~> 4.0" # replaces Rails’ default fixtures for feeding test data
   # gem "guard-rspec", "~> 0.7.0" # auto runs tests and runs specs when code changes.
   gem "faker", "~> 1.0.1"   # generates valid data for tests.
 end
 
 group :test do
-  gem "capybara", "~> 1.1.2"    # programmatically simulates your users’ web interactions.
+  gem "capybara", "~> 2.0.1"    # programmatically simulates your users’ web interactions.
   gem "database_cleaner", "~> 0.7.2"    # cleans data from the test database
   gem "launchy", "~> 2.1.0" # render the test in the web browser on-demand
 end

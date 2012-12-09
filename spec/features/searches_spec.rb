@@ -1,5 +1,5 @@
 require 'spec_helper'
-include Capybara::DSL
+# include Capybara::DSL
 
 describe "Searches" do
 	context "webpage" do
@@ -20,7 +20,7 @@ describe "Searches" do
 			fill_in 'Block', with:'1000'
 		end
 
-		it "must allow entry of 'Lot'" do
+		xit "must allow entry of 'Lot'" do
 			fill_in 'Lot', with:'9999'
 		end
 
@@ -32,7 +32,7 @@ describe "Searches" do
 			fill_in 'Street', with:'Broadway'
 		end
 
-		it "must allow entry of 'Address-Number'" do
+		xit "must allow entry of 'Address-Number'" do
 			fill_in 'Address-Number', with:'1111'
 		end
 
@@ -54,7 +54,7 @@ describe "Searches" do
 		end
 
 		it "must allow selection of 'sort_by'" do
-			select 'Permittee'
+			select 'Licensee'
             select 'License-Type'
             select 'Business-Name'
             select 'Permit-Count'
@@ -157,7 +157,7 @@ describe "Searches" do
 		  page.should have_xpath "/html/head[title='Koyinsho | Search']"
 		end
 
-		it "must give error when Lot is given without Block"  do
+		xit "must give error when Lot is given without Block"  do
 		  fill_in 'Lot', with:'91000'
 		  click_button('Find Contractors')
 		  uri = URI.parse(current_url)

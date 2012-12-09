@@ -36,11 +36,11 @@ class SearchesController < ApplicationController
       else
         case @search['sort_by']
           when "Licensee"     then permits_order =
-            "licensee_full_name, licensee_license_kind, max(permit_expiration_date) DESC"
+            "licensee_full_name, licensee_license_kind, max(permit_issuance_date) DESC"
           when "License-Type"  then permits_order =
-            "licensee_license_kind, licensee_business_name, licensee_full_name, max(permit_expiration_date) DESC"
+            "licensee_license_kind, licensee_business_name, licensee_full_name, max(permit_issuance_date) DESC"
           when "Business-Name" then permits_order =
-            "licensee_business_name, licensee_license_kind, licensee_full_name, max(permit_expiration_date) DESC"
+            "licensee_business_name, licensee_license_kind, licensee_full_name, max(permit_issuance_date) DESC"
         #  when "Permit-Count"  then permits = permits.where(?:value)
           else
             permits_order = ''
@@ -54,7 +54,7 @@ class SearchesController < ApplicationController
 
         permittees = Permit.search_for_contractors(@search)
         permittees = permittees.select("licensee_full_name").select("licensee_business_name").select("licensee_phone").select("licensee_license_kind").select("licensee_license_number")  
-        permittees = permittees.select("max(permit_expiration_date) as freshness_date")
+        permittees = permittees.select("max(permit_issuance_date) as freshness_date")
         permittees = permittees.group("licensee_full_name").group("licensee_business_name").group("licensee_phone").group("licensee_license_kind").group("licensee_license_number")
         # permittees = permittees.uniq
         permittees = permittees.order(permits_order) unless permits_order.blank?

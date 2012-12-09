@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121125214605) do
+ActiveRecord::Schema.define(:version => 20121201021938) do
 
   create_table "members", :force => true do |t|
     t.string   "username"
@@ -44,7 +44,6 @@ ActiveRecord::Schema.define(:version => 20121125214605) do
     t.string   "owner_phone"
     t.string   "permit_kind"
     t.string   "permit_subkind"
-    t.string   "permit_expiration_date"
     t.string   "licensee_full_name"
     t.string   "licensee_business_name"
     t.string   "licensee_license_kind"
@@ -55,6 +54,7 @@ ActiveRecord::Schema.define(:version => 20121125214605) do
     t.datetime "updated_at",                         :null => false
     t.string   "permit_job_number"
     t.boolean  "owner_is_non_profit"
+    t.date     "permit_issuance_date"
   end
 
 end

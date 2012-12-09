@@ -1,5 +1,5 @@
 require 'spec_helper'
-include Capybara::DSL
+# include Capybara::DSL
 
 describe "menu items" do
   before(:each) do 

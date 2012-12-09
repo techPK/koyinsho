@@ -139,3 +139,48 @@ describe "Permit#search_for_contractors must return proper permit rows when sele
   end
 
 end
+
+describe "Permit.create_or_update_permit" do
+
+  before(:each) do
+    @old_permit = FactoryGirl.attributes_for(
+                    :permit,
+                    licensee_full_name:'Richards, Sue', 
+                    permit_job_number:"0101010101",
+                    permit_issuance_date:(Date.today - 100)
+                  )
+    FactoryGirl.create(:permit, @old_permit)
+  end
+
+  it "must add new record when given new permit_job_number" do
+    expect {
+      new_permit = @old_permit
+      new_permit[:permit_job_number] = "0202020202"
+      Permit.create_or_update_permit(new_permit).should be_nil
+    }.to change(Permit, :count).by(1)
+  end
+  
+  it "must update old record when given existing permit_job_number and newer permit_issuance_date" do
+    new_permit = @old_permit
+    new_permit[:permit_issuance_date] = Date.today - 2
+    expect {
+      Permit.create_or_update_permit(new_permit).should be_nil
+    }.to change(Permit, :count).by(0)
+    current_permit = Permit.where(permit_job_number:new_permit[:permit_job_number]).first
+    current_permit.permit_issuance_date.should eq(Date.today - 2)
+  end
+
+  it "must do nothing when given existing permit_job_number with older permit_issuance_date" do
+    expect {
+      new_permit = @old_permit
+      new_permit[:permit_issuance_date] = Date.today - 200
+      Permit.create_or_update_permit(new_permit).should be_nil
+    }.to change(Permit, :count).by(0)
+  end  
+
+  it "must return text message when given permit is found invalid or inacceptable for being saved" do
+    new_permit = @old_permit
+    new_permit[:permit_issuance_date] = "Not a valid date format"
+    Permit.create_or_update_permit(new_permit).should_not be_nil
+  end
+end
