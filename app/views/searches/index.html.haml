@@ -1,104 +1,71 @@
 .container
 	%p 
 		- provide(:title, 'Search')
-		%form.form-horizontal{name:'search[]'}
-			Consider only Properties with these attribributes
+		= form_tag({:action => :create, :method => 'post'},{class:'form-horizontal'}) do
+			Consider only Business Partners with these location attribributes
 			.control-group
-				%label.control-label{for:'inputBorough'} Borough
+				= label_tag 'borough',nil,class:'control-label'
 				.controls
-					%select{id:'inputBorough', name:'search[borough]'}
-						%option{selected:'selected'} 
-						%option Bronx
-						%option Brooklyn
-						%option Manhattan
-						%option Queens
-						%option Staten Island
+					- borough_options = options_for_select(['Bronx', 'Brooklyn', 'Manhattan', 'Queens', 'Staten Island' ])
+					= select_tag 'borough',borough_options, include_blank:true
 			.control-group
-				%label.control-label{for:'inputBlock'} Block
+				= label_tag 'block',nil,class:'control-label'
 				.controls
-					%input{type:"text", id:'inputBlock', placeholder:"Block Number", name:'search[block]'}
+					= text_field_tag 'block', nil, placeholder:"Block Number"
 			.control-group
-				%label.control-label{for:'inputLot'} Lot
+				= label_tag 'lot',nil,class:'control-label'
 				.controls
-					%input{type:"text", id:'inputLot', placeholder:"Lot Number", name:'search[lot]', disabled:'disabled'}
+					= text_field_tag 'lot', nil, placeholder:"Lot Number", disabled:true
 			.control-group
-				%label.control-label{for:'inputZipcode'} Zipcode
+				= label_tag 'zipcode',nil,class:'control-label'
 				.controls
-					%input{type:"text", id:'inputZipcode', placeholder:"Needs autocomplete", name:'search[zipcode]'}
+					= text_field_tag 'zipcode', nil, placeholder:"Needs autocomplete"
 			.control-group
-				%label.control-label{for:'inputStreet'} Street
+				= label_tag 'street',nil,class:'control-label'
 				.controls
-					%input{type:"text", id:'inputStreet', placeholder:"Needs autocomplete", name:'search[street]'}
+					= text_field_tag 'street', nil, placeholder:"Needs autocomplete"
 			.control-group
-				%label.control-label{for:'inputAddressNumber'} Address-Number
+				= label_tag 'address_number',nil,class:'control-label'
 				.controls
-					%input{type:"text", id:'inputAddressNumber', placeholder:"Needs autocomplete", name:'search[address_number]', disabled:'disabled'}
+					= text_field_tag 'address_number', nil, placeholder:"Needs autocomplete", disabled:true
 			.control-group
-				%label.control-label{for:'inputCommunity'} Community District
+				= label_tag 'community_district',nil,class:'control-label'
 				.controls
-					%input{type:"text", id:'inputCommunity', placeholder:"Needs Dropdown", name:'search[community_district]'}
+					= text_field_tag 'community_district', nil, placeholder:"Needs dropdown"
 			%br/
 			Select only Permittees with these Work Attributes
 			.control-group
-				%label.control-label{for:'inputLicenseeType'} Licensee Type
-				.controls
-					%select{type:"text", id:'inputLicenseeType', placeholder:"Needs Dropdown", name:'search[license_type]'}						
-						%option=""
-						%option="ADMIN/NO WORK"
-						%option="DEMOLITION CONTRACTOR"
-						%option="FIRE SUPPRESSION CONTRACTOR"
-						%option="GENERAL CONTRACTOR"
-						%option="HOME IMPROVEMENT CONTRACTOR"
-						%option="MASTER PLUMBER"
-						%option="OIL BURNER INSTALLER"
-						%option="OWNER"
-						%option="SIGN HANGER"
+				= label_tag 'licensee_type',nil,class:'control-label'
+				.controls				
+					- license_type_options = options_for_select(["ADMIN/NO WORK", "DEMOLITION CONTRACTOR", "FIRE SUPPRESSION CONTRACTOR", "GENERAL CONTRACTOR", "HOME IMPROVEMENT CONTRACTOR", "MASTER PLUMBER", "OIL BURNER INSTALLER", "OWNER", "SIGN HANGER" ])
+					= select_tag 'license_type',license_type_options, include_blank:true, placeholder:"Needs Dropdown"
 			.control-group
-				%label.control-label{for:'inputSortBy'} Sort Results By
+				= label_tag 'sort_by',nil,class:'control-label'
 				.controls
-					%select{type:"text", id:'inputSortBy', name:'search[sort_by]'}
-						%option=""
-						%option="Licensee"
-						%option="License-Type"
-						%option="Business-Name"
-						%option="Permit-Count"
+					- sort_by_options = options_for_select(["Licensee", "License-Type", "Business-Name", "Permit-Count" ])
+					= select_tag 'sort_by',sort_by_options, include_blank:true
 			.control-group
-				%label.control-label{for:'inputWorkType'} Property Work Type
+				= label_tag 'work_type',nil,class:'control-label'
 				.controls
-					%select{type:"text", id:'inputWorkType', name:"search[permit_type]"}
-						%option{value:""}
-						%optgroup(label="ALTERATION")
-							%option(value="AL")="[all]"
-						%optgroup(label="DEMOLITION & REMOVAL")
-							%option(value="DM")="[all]"
-						%optgroup(label="New Building")
-							%option(value="NB")="[all]"
-						%optgroup(label="PLUMBING")
-							%option(value="PL")="[all]"
-						%optgroup(label="SIGN")
-							%option(value="SG")="[all]"
-						%optgroup(label="CONSTRUCTION EQUIPMENT")
-							%option(value="EQ")="[all]"
-							%option(value="EQ/CH")Chute
-							%option(value="EQ/FN")Fence
-							%option(value="EQ/OT")Other
-							%option(value="EQ/SF")Scaffold
-							%option(value="EQ/SH")Sidewalk shed
-						%optgroup(label="EQUIPMENT WORK")
-							%option(value="EW")="[all]"
-							%option(value="EW/BL")Boiler
-							%option(value="EW/FA")Fire Alarm
-							%option(value="EW/FB")Fuel Burning
-							%option(value="EW/FP")Fire Suppression
-							%option(value="EW/FS")Fuel Storage
-							%option(value="EW/MH")Mechanical/HVAC
-							%option(value="EW/OT")Other
-							%option(value="EW/SD")Stand pipe
-							%option(value="EW/SP")Sprinkler
-						%optgroup(label="FOUNDATION/EARTHWORK")
-							%option(value="FO")="[all]"
-							%option(value="FO/EA")Earthwork Only
-			%input.btn#contractors{type:"submit",formmethod:'post',formaction:searches_contractors_url,name:'contractors', title:"Find Licensed Contractors.", value:'Find Contractors'}
-			%input.btn#agents{type:"submit",formmethod:'post',formaction:searches_agents_url,name:'agents', title:"Find Legal Representatives.", value:'Find Agents'}
-			%input.btn#suppliers{type:"submit",formmethod:'post',formaction:searches_suppliers_url,name:'suppliers', title:"Find Sellers of products and unlicensed services.", value:'Find Suppliers'}
-			%input.btn#owners{type:"submit",formmethod:'post',formaction:searches_owners_url,name:'owners', title:"Find Property Owners.", value:'Find Owners'} 
+					- work_type_options = grouped_options_for_select( |
+					{"ALTERATION" => {"[all]" => "AL"},  |
+					"DEMOLITION & REMOVAL" => {"[all]" => "DM"}, |
+					"EQUIPMENT WORK" => {"[all]" => "EW", "Boiler" => "EW/BL",  |
+					"Fire Alarm" => "EW/FA", "Fuel Burning" => "EW/FB", |
+					"Fire Suppression" => "EW/FP", "Fuel Storage" => "EW/FS", |
+					"Mechanical/HVAC" => "EW/MH", "Other" => "EW/OT", |
+					"Stand pipe" => "EW/SD", "Sprinkler" => "EW/SP"},  |					
+					"CONSTRUCTION EQUIPMENT" => {"[all]" => "EQ", "Chute" => "EQ/CH", |
+					"Fence" => "EQ/FN", "Other" => "EQ/OT",  "Scaffold" => "EQ/SF", |
+					"Sidewalk shed" => "EQ/SH"}, |					
+					"New Building" => {"[all]" => "NB"},  |
+					"PLUMBING" => {"[all]" => "PL"},  |
+					"SIGN" => {"[all]" => "SG"},  |
+					"FOUNDATION/EARTHWORK" => {"[all]" => "FO", "Earthwork Only" => "FO/EA"} |
+					}) |
+					= select_tag 'work_type',work_type_options, include_blank:true	
+			
+			%input.btn#contractors{type:"submit",formmethod:'post',formaction:"/searches",name:'contractors', title:"Find Licensed Contractors.", value:'Find Contractors'}
+			%input.btn#agents{type:"submit",formmethod:'post',formaction:"/searches",name:'agents', title:"Find Legal Representatives.", value:'Find Agents'}
+			%input.btn#suppliers{type:"submit",formmethod:'post',formaction:"/searches",name:'suppliers', title:"Find Sellers of products and unlicensed services.", value:'Find Suppliers'}
+			%input.btn#owners{type:"submit",formmethod:'post',formaction:"/searches",name:'owners', title:"Find Property Owners.", value:'Find Owners'} 

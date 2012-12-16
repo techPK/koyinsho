@@ -1,9 +1,9 @@
 Koyinsho::Application.routes.draw do
+  root to:"housekeeping#home"
 
-  # get "searches/contractors"
-  # get "searches/owners"
-  # get "searches/agents"
-  # get "searches/suppliers"
+  match "/about" => "housekeeping#about", :as => :about
+  match "/contact" => "housekeeping#contact", :as => :contact
+
 
   get "signout" => "sessions#destroy", as:"signout"
   get "signin" => "sessions#new", as:"signin"
@@ -13,20 +13,20 @@ Koyinsho::Application.routes.draw do
   resources :members
   resources :sessions
   
-  post "searches/contractors" => "searches#contractors"
-  get  "searches/contractors" => "searches#contractors"
-  post "searches/owners" => "searches#owners"
-  get  "searches/owners" => "searches#owners"
-  post "searches/agents" => "searches#agents"
-  get  "searches/agents" => "searches#agents"
-  post "searches/suppliers" => "searches#suppliers"
-  get  "searches/suppliers" => "searches#suppliers"
+  get "/searches/contractors" => "searches#contractors"
+  post "/searches/contractors" => "searches#contractors_post"
 
-  resources :searches
+  resources :searches, :except => [:show] do
+    # collection do
+    #   get :contractors
+    #   post :contractors_post
+    #   get :owners
+    #   get :agents
+    #   get :suppliers
+    # end
+  end
   
-  get "about" => "housekeeping#about"
-  get "contact" => "housekeeping#contact"
-  root to:"housekeeping#home"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
