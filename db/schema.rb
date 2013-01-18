@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121201021938) do
+ActiveRecord::Schema.define(:version => 20130117225122) do
 
   create_table "members", :force => true do |t|
     t.string   "username"
@@ -26,6 +26,27 @@ ActiveRecord::Schema.define(:version => 20121201021938) do
   end
 
   add_index "members", ["remember_me_token"], :name => "index_members_on_remember_me_token"
+
+  create_table "nyc_building_permits", :force => true do |t|
+    t.string   "bin_number"
+    t.string   "job_number"
+    t.string   "job_type"
+    t.string   "work_type"
+    t.string   "permit_kind"
+    t.string   "permit_subkind"
+    t.string   "issuance_date"
+    t.string   "expiration_date"
+    t.string   "job_start_date"
+    t.integer  "property_building_id"
+    t.integer  "licensed_contractor_id"
+    t.integer  "property_owner_id"
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
+  end
+
+  add_index "nyc_building_permits", ["licensed_contractor_id"], :name => "index_nyc_building_permits_on_licensed_contractor_id"
+  add_index "nyc_building_permits", ["property_building_id"], :name => "index_nyc_building_permits_on_property_building_id"
+  add_index "nyc_building_permits", ["property_owner_id"], :name => "index_nyc_building_permits_on_property_owner_id"
 
   create_table "permits", :force => true do |t|
     t.string   "property_borough"
