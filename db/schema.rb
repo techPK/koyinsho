@@ -11,7 +11,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130118174114) do
+ActiveRecord::Schema.define(:version => 20130119020938) do
+
+  create_table "licensed_contractors", :force => true do |t|
+    t.string   "licensee_full_name"
+    t.string   "licensee_business_name"
+    t.string   "licensee_business_type"
+    t.string   "licensee_number"
+    t.string   "licensee_HIC_number"
+    t.string   "licensee_phone"
+    t.date     "licensee_recent_filing_date"
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
+  end
 
   create_table "members", :force => true do |t|
     t.string   "username"

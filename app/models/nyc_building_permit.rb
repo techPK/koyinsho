@@ -27,6 +27,7 @@ class NycBuildingPermit < ActiveRecord::Base
  	nyc_permit_count = 0
  	nyc_permits.each do |nyc_permit|
  	  property_owner(nyc_permit)
+ 	  licensed_contractor(nyc_permit)
  	  [:owner_s_first_last_name,
 		:permittee_s_first_last_name,
 		:site_safety_mgr_s_name, 
@@ -85,6 +86,24 @@ class NycBuildingPermit < ActiveRecord::Base
   	  property_owner.save
   	end
   	property_owner
+  end
+
+  def self.licensed_contractor(permit)
+  	contractor_find = {}
+  	contractor_update = {}
+  	contractor_find[:licensee_business_name] = permit[:permittee_s_business_name]
+  	contractor_find[:licensee_business_type] = permit[:permittee_s_license_type]
+  	contractor_find[:licensee_number] = permit[:permittee_s_license]
+  	contractor_find[:licensee_full_name] = normalized_name(permit[:permittee_s_first_last_name])
+  	contractor_find[:licensee_phone] = permit[:owner_s_phone]
+  	contractor_find[:licensee_HIC_number] = permit[:hic_license].present?
+  	contractor_update[:licensee_recent_filing_date] = Date.parse(permit[:filing_date])
+  	licensed_contractor = LicensedContractor.where(contractor_find).first_or_create(contractor_update)
+  	if licensed_contractor[:licensee_recent_filing_date] <= contractor_update[:licensee_recent_filing_date]
+  	  licensed_contractor[:licensee_recent_filing_date] = contractor_update[:licensee_recent_filing_date]
+  	  licensed_contractor.save
+  	end
+  	licensed_contractor
   end
 
 

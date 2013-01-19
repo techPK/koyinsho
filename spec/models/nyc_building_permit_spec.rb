@@ -13,7 +13,7 @@ describe NycBuildingPermit do
   	PropertyOwner.count.should > 0
   end
 
-  xit 'updates LicensedContractors' do
+  it 'updates LicensedContractors' do
   	LicensedContractor.count.should > 0
   end
 
@@ -28,7 +28,7 @@ describe NycBuildingPermit do
   after :all do
   	NycBuildingPermit.delete_all
   	PropertyOwner.delete_all
-  	# LicensedContractor.delete_all
+  	LicensedContractor.delete_all
   	# PropertyBuilding.delete_all
   	# Permit.delete_all
   end
