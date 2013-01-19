@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130118020631) do
+ActiveRecord::Schema.define(:version => 20130118174114) do
 
   create_table "members", :force => true do |t|
     t.string   "username"
@@ -105,6 +105,20 @@ ActiveRecord::Schema.define(:version => 20130118020631) do
     t.string   "permit_job_number"
     t.boolean  "owner_is_non_profit"
     t.date     "permit_issuance_date"
+  end
+
+  create_table "property_owners", :force => true do |t|
+    t.string   "owner_full_name"
+    t.string   "owner_business_name"
+    t.string   "owner_business_type"
+    t.string   "owner_street_address"
+    t.string   "owner_city_state"
+    t.string   "owner_zipcode"
+    t.string   "owner_phone"
+    t.date     "owner_recent_filing_date"
+    t.boolean  "owner_is_non_profit"
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
   end
 
 end

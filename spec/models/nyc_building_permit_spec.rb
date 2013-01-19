@@ -10,19 +10,19 @@ describe NycBuildingPermit do
   end
 
   it 'updates PropertyOwners' do
-  	PropertyOwner.count.should_not be(0)
+  	PropertyOwner.count.should > 0
   end
 
   xit 'updates LicensedContractors' do
-  	LicensedContractor.count.should_not be(0)
+  	LicensedContractor.count.should > 0
   end
 
   xit 'updates PropertyBuildings' do
-  	PropertyBuilding.count.should_not be(0)
+  	PropertyBuilding.count.should > 0
   end
 
   xit 'updates Permits' do
-  	Permit.count.should_not be(0)
+  	Permit.count.should > 0
   end
 
   after :all do
