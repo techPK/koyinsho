@@ -28,6 +28,7 @@ class NycBuildingPermit < ActiveRecord::Base
  	nyc_permits.each do |nyc_permit|
  	  property_owner(nyc_permit)
  	  licensed_contractor(nyc_permit)
+ 	  property_building(nyc_permit)
  	  [:owner_s_first_last_name,
 		:permittee_s_first_last_name,
 		:site_safety_mgr_s_name, 
@@ -83,6 +84,7 @@ class NycBuildingPermit < ActiveRecord::Base
   	property_owner = PropertyOwner.where(owner_find).first_or_create(owner_update)
   	if property_owner[:owner_recent_filing_date] <= owner_update[:owner_recent_filing_date]
   	  property_owner[:owner_recent_filing_date] = owner_update[:owner_recent_filing_date]
+  	  property_owner[:bin] = permit[:bin]
   	  property_owner.save
   	end
   	property_owner
@@ -101,11 +103,37 @@ class NycBuildingPermit < ActiveRecord::Base
   	licensed_contractor = LicensedContractor.where(contractor_find).first_or_create(contractor_update)
   	if licensed_contractor[:licensee_recent_filing_date] <= contractor_update[:licensee_recent_filing_date]
   	  licensed_contractor[:licensee_recent_filing_date] = contractor_update[:licensee_recent_filing_date]
+  	  licensed_contractor[:bin] = permit[:bin]
   	  licensed_contractor.save
   	end
   	licensed_contractor
   end
 
+  def self.property_building(permit)
+  	property_building_find = {}
+  	property_building_find[:bin] = permit[:bin]
+  	property_building_update = {}
+  	property_building_update[:recent_filing_date] = Date.parse(permit[:filing_date])
+	property_building = PropertyBuilding.where(property_building_find).first_or_create(property_building_update)
+  	if property_building[:recent_filing_date] <= property_building_update[:recent_filing_date]
+      property_building[:borough] = permit[:borough]
+      property_building[:block] = permit[:block]
+      property_building[:lot] = permit[:lot]
+      property_building[:community_board] = permit[:community_board]
+      property_building[:street_name] = permit[:street_name]
+      property_building[:house] = permit[:house]
+      property_building[:zip_code] = permit[:zip_code]
+      property_building[:special_district_1] = permit[:special_district_1]
+      property_building[:special_district_2] = permit[:special_district_2]
+      property_building[:bldg_type] = permit[:bldg_type]
+      property_building[:residential] = permit[:residential]
+      property_building[:site_fill] = permit[:site_fill]
+      property_building[:oil_gas] = permit[:oil_gas]
+  	  property_building[:recent_filing_date] = permit[:recent_filing_date]
+  	  property_building.save
+  	end
+  	property_building
+  end
 
 end
  

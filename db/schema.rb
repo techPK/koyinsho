@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130119020938) do
+ActiveRecord::Schema.define(:version => 20130124052724) do
 
   create_table "licensed_contractors", :force => true do |t|
     t.string   "licensee_full_name"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(:version => 20130119020938) do
     t.date     "licensee_recent_filing_date"
     t.datetime "created_at",                  :null => false
     t.datetime "updated_at",                  :null => false
+    t.string   "bin"
   end
 
   create_table "members", :force => true do |t|
@@ -119,6 +120,26 @@ ActiveRecord::Schema.define(:version => 20130119020938) do
     t.date     "permit_issuance_date"
   end
 
+  create_table "property_buildings", :force => true do |t|
+    t.string   "bin"
+    t.string   "borough"
+    t.string   "block"
+    t.string   "lot"
+    t.string   "community_board"
+    t.string   "street_name"
+    t.string   "house"
+    t.string   "zip_code"
+    t.string   "special_district_1"
+    t.string   "special_district_2"
+    t.string   "bldg_type"
+    t.string   "residential"
+    t.string   "site_fill"
+    t.string   "oil_gas"
+    t.date     "recent_filing_date"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
   create_table "property_owners", :force => true do |t|
     t.string   "owner_full_name"
     t.string   "owner_business_name"
@@ -131,6 +152,8 @@ ActiveRecord::Schema.define(:version => 20130119020938) do
     t.boolean  "owner_is_non_profit"
     t.datetime "created_at",               :null => false
     t.datetime "updated_at",               :null => false
+    t.string   "bin"
+    t.date     "recent_filing_date"
   end
 
 end

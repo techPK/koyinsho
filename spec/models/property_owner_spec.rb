@@ -1,5 +1,7 @@
 require 'spec_helper'
 
 describe PropertyOwner do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it 'should have bin defined' do
+  	subject.attribute_names.include?('bin').should eq(true)
+  end
 end
