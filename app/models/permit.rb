@@ -1,5 +1,8 @@
 class Permit < ActiveRecord::Base
-  attr_accessible :property_block_number, :property_borough, :property_lot_number
+  attr_accessible :property_block_number, :property_borough, :property_lot_number, :property_community_district_number, :property_street, :property_address_number, :property_zipcode
+  attr_accessible :permit_kind, :permit_subkind, :permit_job_number, :permit_issuance_date
+  attr_accessible :owner_full_name, :owner_business_name, :owner_business_kind, :owner_street_address, :owner_city_state, :owner_zipcode, :owner_phone, :owner_is_non_profit
+  attr_accessible :licensee_full_name, :licensee_business_name, :licensee_license_kind, :licensee_license_number, :licensee_license_HIC_number, :licensee_phone
   validates_uniqueness_of :permit_job_number
   
   def self.search_for_contractors(search_params={})

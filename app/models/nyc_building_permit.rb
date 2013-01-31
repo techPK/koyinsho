@@ -37,6 +37,7 @@ class NycBuildingPermit < ActiveRecord::Base
 		     nyc_permit[name] = normalized_name(nyc_permit[name])
 		   end
 	  end
+    permit(nyc_permit)
  	  nyc_permit_count += 1 if NycBuildingPermit.create(nyc_permit)	
  	end
   	nyc_permit_count
@@ -114,8 +115,8 @@ class NycBuildingPermit < ActiveRecord::Base
   	property_building_find[:bin] = permit[:bin]
   	property_building_update = {}
   	property_building_update[:recent_filing_date] = Date.parse(permit[:filing_date])
-	property_building = PropertyBuilding.where(property_building_find).first_or_create(property_building_update)
-  	if property_building[:recent_filing_date] <= property_building_update[:recent_filing_date]
+	  property_building = PropertyBuilding.where(property_building_find).first_or_create(property_building_update)
+  	if property_building[:recent_filing_date].nil? || property_building[:recent_filing_date] <= Date.parse(permit[:filing_date])
       property_building[:borough] = permit[:borough]
       property_building[:block] = permit[:block]
       property_building[:lot] = permit[:lot]
@@ -133,6 +134,51 @@ class NycBuildingPermit < ActiveRecord::Base
   	  property_building.save
   	end
   	property_building
+  end
+
+  def self.permit(permit)
+    permit_find = {}
+    permit_find[:permit_job_number] = permit[:job]
+    permit_update = {}
+    permit_update[:permit_issuance_date] = Date.parse(permit[:issuance_date])
+    permit_record = Permit.where(permit_find).first_or_create(permit_update)
+    if permit_record[:permit_issuance_date].nil? || permit_record[:permit_issuance_date] <= Date.parse(permit[:issuance_date])
+      #Permit
+      permit_record[:permit_kind] = permit[:permit_type]
+      permit_record[:permit_subkind] = permit[:permit_subtype]
+      permit_record[:permit_job_number] = permit[:job]
+      permit_record[:permit_issuance_date] = permit[:issuance_date]
+
+      #Property
+      permit_record[:property_borough] = permit[:borough]
+      permit_record[:property_block_number] = permit[:block]
+      permit_record[:property_lot_number] = permit[:lot]
+      permit_record[:property_community_district_number] = permit[:community_board]
+      permit_record[:property_street] = permit[:street_name]
+      permit_record[:property_address_number] = permit[:house]
+      permit_record[:property_zipcode] = permit[:zip_code]
+      #Owner
+      permit_record[:owner_full_name] = "[#{permit[:owner_s_first_last_name]}]"
+      permit_record[:owner_business_name] = "[#{permit[:owner_s_business_name]}]"
+      permit_record[:owner_business_kind] = "[#{permit[:owner_s_business_type]}]"
+      permit_record[:owner_street_address] = "[#{permit[:owner_s_house_street]}]"
+      permit_record[:owner_city_state] = '[#{permit[:city_state_zip]}]'
+      permit_record[:owner_zipcode] = '[10000]'
+      permit_record[:owner_phone] = permit[:owner_s_phone]
+      permit_record[:owner_is_non_profit] = (permit[:non_profit] == 'Y') ? true : false
+      #Contractor
+      permit_record[:licensee_full_name] = permit[:permittee_s_first_last_name]
+      permit_record[:licensee_business_name] = permit[:permittee_s_business_name]
+      permit_record[:licensee_license_kind] = permit[:permittee_s_license_type]
+      permit_record[:licensee_license_number] = permit[:permittee_s_license]
+      permit_record[:licensee_license_HIC_number] = permit[:hic_license]
+      permit_record[:licensee_phone] = permit[:permittee_s_phone]
+      
+      # permit_record[:recent_filing_date] = permit[:recent_filing_date]
+      
+      permit_record.save
+    end
+    permit_record
   end
 
 end
