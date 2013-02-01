@@ -2,13 +2,14 @@
 
 FactoryGirl.define do
   factory :permit do
-    property_borough "Manhattan"
-    sequence(:property_block_number) {|n| ((n % 3) != 0) ? "77" : "89" }
-    sequence(:property_lot_number) {|n| "%08d" % n}
-    sequence(:property_community_district_number) {|n| ((n % 3) != 0) ? "101" : "102" }
-    property_address_number {Faker::Address.building_number}
-    property_street {"Broadway #{Faker::Address.street_suffix}"}
-    sequence(:property_zipcode) {|n| ((n % 3) != 0) ? "10001" : "10012" }
+    association :property_building
+  #  property_borough "Manhattan"
+  #  sequence(:property_block_number) {|n| ((n % 3) != 0) ? "77" : "89" }
+  #  sequence(:property_lot_number) {|n| "%08d" % n}
+  #  sequence(:property_community_district_number) {|n| ((n % 3) != 0) ? "101" : "102" }
+  #  property_address_number {Faker::Address.building_number}
+  #  property_street {"Broadway #{Faker::Address.street_suffix}"}
+  #  sequence(:property_zipcode) {|n| ((n % 3) != 0) ? "10001" : "10012" }
     owner_full_name {"#{Faker::Name.last_name}, #{Faker::Name.first_name}"}
     owner_business_name {"#{Faker::Company.name} #{Faker::Company.suffix}"}
     sequence(:owner_business_kind) {|n| ((n % 3) != 0)? "Proprietorship" : 'Corporation'}
@@ -25,7 +26,7 @@ FactoryGirl.define do
     sequence(:licensee_license_number) {|n| ((n % 4) != 0)? "609087" : "1668" }
     licensee_license_HIC_number ""
     sequence(:licensee_phone) {|n| ((n % 4) != 0)? "(347) 446-4111" : "(718) 383-9301" }
-    sequence(:permit_job_number) { |n| "%08d" % n}
+    sequence(:permit_job_number) { |n| "%08d" % Random.new.rand(99999..99999999)}
     owner_is_non_profit false
   end
 end

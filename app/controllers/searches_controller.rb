@@ -21,7 +21,7 @@ class SearchesController < ApplicationController
     end
 
     if msg.blank?
-      msg = Permit.borough_check(
+      msg = PropertyBuilding.borough_check(
         params['borough'], params['zipcode'], params['community_district'])
     end
     if msg.present?

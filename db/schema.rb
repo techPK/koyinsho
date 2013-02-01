@@ -11,19 +11,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130124052724) do
+ActiveRecord::Schema.define(:version => 20130201161209) do
 
   create_table "licensed_contractors", :force => true do |t|
-    t.string   "licensee_full_name"
-    t.string   "licensee_business_name"
-    t.string   "licensee_business_type"
-    t.string   "licensee_number"
-    t.string   "licensee_HIC_number"
-    t.string   "licensee_phone"
-    t.date     "licensee_recent_filing_date"
-    t.datetime "created_at",                  :null => false
-    t.datetime "updated_at",                  :null => false
+    t.string   "full_name"
+    t.string   "business_name"
+    t.string   "license_type"
+    t.string   "license_number"
+    t.string   "his_license_number"
+    t.string   "phone"
+    t.date     "recent_filing_date"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
     t.string   "bin"
+    t.boolean  "self_certified"
   end
 
   create_table "members", :force => true do |t|
@@ -118,6 +119,7 @@ ActiveRecord::Schema.define(:version => 20130124052724) do
     t.string   "permit_job_number"
     t.boolean  "owner_is_non_profit"
     t.date     "permit_issuance_date"
+    t.integer  "property_building_id"
   end
 
   create_table "property_buildings", :force => true do |t|
