@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130201161209) do
+ActiveRecord::Schema.define(:version => 20130201194641) do
 
   create_table "licensed_contractors", :force => true do |t|
     t.string   "full_name"
@@ -92,13 +92,6 @@ ActiveRecord::Schema.define(:version => 20130201161209) do
   end
 
   create_table "permits", :force => true do |t|
-    t.string   "property_borough"
-    t.string   "property_block_number"
-    t.string   "property_lot_number"
-    t.string   "property_community_district_number"
-    t.string   "property_address_number"
-    t.string   "property_street"
-    t.string   "property_zipcode"
     t.string   "owner_full_name"
     t.string   "owner_business_name"
     t.string   "owner_business_kind"
@@ -108,18 +101,14 @@ ActiveRecord::Schema.define(:version => 20130201161209) do
     t.string   "owner_phone"
     t.string   "permit_kind"
     t.string   "permit_subkind"
-    t.string   "licensee_full_name"
-    t.string   "licensee_business_name"
-    t.string   "licensee_license_kind"
-    t.string   "licensee_license_number"
-    t.string   "licensee_license_HIC_number"
-    t.string   "licensee_phone"
-    t.datetime "created_at",                         :null => false
-    t.datetime "updated_at",                         :null => false
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
     t.string   "permit_job_number"
     t.boolean  "owner_is_non_profit"
     t.date     "permit_issuance_date"
     t.integer  "property_building_id"
+    t.integer  "licensed_contractor_id"
+    t.string   "bin"
   end
 
   create_table "property_buildings", :force => true do |t|

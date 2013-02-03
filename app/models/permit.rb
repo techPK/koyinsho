@@ -1,5 +1,6 @@
 class Permit < ActiveRecord::Base
   belongs_to :property_building
+  belongs_to :licensed_contractor
   #accepts_nested_attributes_for :property_building
   attr_accessible :permit_kind, :permit_subkind, :permit_job_number, :permit_issuance_date
   attr_accessible :owner_full_name, :owner_business_name, :owner_business_kind, :owner_street_address, :owner_city_state, :owner_zipcode, :owner_phone, :owner_is_non_profit
@@ -23,7 +24,7 @@ class Permit < ActiveRecord::Base
         when :address_number.to_s then permits = permits.joins(:property_building).where(:property_buildings => {house:value})
         when :community_district.to_s then permits = permits.joins(:property_building).where(:property_buildings => {community_board:value})
         #Other
-        when :license_type.to_s then permits = permits.where(licensee_license_kind:value)
+        when :license_type.to_s then permits = permits.joins(:licensed_contractor).where(:licensed_contractors => {license_type:value})
         when :permit_type.to_s
           permits = permits.where(permit_kind:value[0,2])
           permits = permits.where(permit_subkind:value[3,2]) if value.size > 2
@@ -32,7 +33,9 @@ class Permit < ActiveRecord::Base
       end
     end 
     # contractors[:permits] = permits 
-    permits		
+    contractors = []
+    permits.each {|permit| contractors << permit.licensed_contractor_id unless permit.licensed_contractor_id.nil?}		
+    LicensedContractor.find(contractors.uniq)
   end
   
   def self.search_for_owners(search_params={})

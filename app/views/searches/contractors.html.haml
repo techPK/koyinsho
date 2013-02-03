@@ -14,9 +14,9 @@
 			%th Freshness Date
 		-@permits[:permittees].each do |permittee|
 			%tr
-				%td=permittee[:licensee_full_name]
-				%td=permittee[:licensee_business_name]
-				%td=permittee[:licensee_phone]
-				%td=permittee[:licensee_license_kind]
-				%td=permittee[:licensee_license_number]
+				%td=permittee[:full_name]
+				%td=permittee[:business_name]
+				%td=permittee[:phone]
+				%td=permittee[:license_type]
+				%td=permittee[:license_number]
 				%td=permittee[:freshness_date]

@@ -27,7 +27,7 @@ class NycBuildingPermit < ActiveRecord::Base
  	nyc_permit_count = 0
  	nyc_permits.each do |nyc_permit|
  	  #TODO: fix address format
-    property_building(nyc_permit)
+
  	  [:owner_s_first_last_name,
 		:permittee_s_first_last_name,
 		:site_safety_mgr_s_name, 
@@ -36,9 +36,10 @@ class NycBuildingPermit < ActiveRecord::Base
 		     nyc_permit[name] = normalized_name(nyc_permit[name])
 		   end
 	  end
-    property_owner(nyc_permit)
-    licensed_contractor(nyc_permit)
-    permit(nyc_permit)
+    owner_id = property_owner(nyc_permit).id
+    property_id = property_building(nyc_permit, owner_id).id
+    contractor_id = licensed_contractor(nyc_permit).id    
+    permit(nyc_permit,contractor_id, property_id)
  	  nyc_permit_count += 1 if NycBuildingPermit.create(nyc_permit)	
  	end
   	nyc_permit_count
@@ -100,19 +101,19 @@ class NycBuildingPermit < ActiveRecord::Base
   	contractor_find[:license_number] = permit[:permittee_s_license]
   	contractor_find[:full_name] = normalized_name(permit[:permittee_s_first_last_name])
   	contractor_find[:phone] = permit[:owner_s_phone]
-  	contractor_find[:his_license_number] = permit[:hic_license].present?
+  	contractor_find[:his_license_number] = permit[:hic_license]
   	contractor_update[:recent_filing_date] = Date.parse(permit[:filing_date])
   	licensed_contractor = LicensedContractor.where(contractor_find).first_or_create(contractor_update)
   	if licensed_contractor[:recent_filing_date] <= contractor_update[:recent_filing_date]
   	  licensed_contractor[:recent_filing_date] = contractor_update[:recent_filing_date]
   	  licensed_contractor[:bin] = permit[:bin]
-      licensed_contractor[:self_certified] = (permit[:self_cert] == 'Y') ? true : false
+      licensed_contractor[:self_certified] = permit[:self_cert].present?
   	  licensed_contractor.save
   	end
   	licensed_contractor
   end
 
-  def self.property_building(permit)
+  def self.property_building(permit, owner_id)
   	property_building_find = {}
   	property_building_find[:bin] = permit[:bin]
   	property_building_update = {}
@@ -133,12 +134,13 @@ class NycBuildingPermit < ActiveRecord::Base
       property_building[:site_fill] = permit[:site_fill]
       property_building[:oil_gas] = permit[:oil_gas]
   	  property_building[:recent_filing_date] = permit[:recent_filing_date]
+      property_building[:property_owner_id] = owner_id
   	  property_building.save
   	end
   	property_building
   end
 
-  def self.permit(permit)
+  def self.permit(permit,contractor_id, property_id)
     permit_find = {}
     permit_find[:permit_job_number] = permit[:job]
     permit_update = {}
@@ -160,15 +162,10 @@ class NycBuildingPermit < ActiveRecord::Base
       permit_record[:owner_zipcode] = '[10000]'
       permit_record[:owner_phone] = permit[:owner_s_phone]
       permit_record[:owner_is_non_profit] = (permit[:non_profit] == 'Y') ? true : false
-      #Contractor
-      permit_record[:licensee_full_name] = permit[:permittee_s_first_last_name]
-      permit_record[:licensee_business_name] = permit[:permittee_s_business_name]
-      permit_record[:licensee_license_kind] = permit[:permittee_s_license_type]
-      permit_record[:licensee_license_number] = permit[:permittee_s_license]
-      permit_record[:licensee_license_HIC_number] = permit[:hic_license]
-      permit_record[:licensee_phone] = permit[:permittee_s_phone]
-      
-      # permit_record[:recent_filing_date] = permit[:recent_filing_date]
+      #associations
+      permit_record[:bin] = permit[:bin]
+      permit_record[:licensed_contractor_id] = contractor_id unless contractor_id.nil?
+      permit_record[:property_building_id] = property_id unless property_id.nil?
       
       permit_record.save
     end

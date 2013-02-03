@@ -4,7 +4,7 @@ describe Permit do
   it "has a valid factory" do
   	FactoryGirl.create(:permit).should be_valid
   end 
-
+  
   it "must have unique job_number" do
   	FactoryGirl.create(:permit, permit_job_number:'090909').should be_valid
   	FactoryGirl.build(:permit, permit_job_number:'090909').should_not be_valid
@@ -13,7 +13,7 @@ describe Permit do
   it "must belong to a property" do
     Permit.reflect_on_association(:property_building).macro.should eq(:belongs_to)
   end
-
+ 
   it "must have associated Property attributes" do
     permit = FactoryGirl.create(:permit)
     permit.property_building.bin.should be_present
@@ -44,12 +44,24 @@ end
 describe "Permit#search_for_contractors" do
 
   before(:each)	do
-  	FactoryGirl.create(:permit,licensee_full_name:'Ed, Amy')
-  	FactoryGirl.create(:permit,licensee_full_name:'Um, Mai')
-  	FactoryGirl.create(:permit,licensee_full_name:'Bi, Moe',
+  	permit1 = FactoryGirl.create(:permit)
+    permit1.licensed_contractor.full_name = 'Ed, Amy'
+    permit1.licensed_contractor.save
+
+  	permit2 = FactoryGirl.create(:permit)
+    permit2.licensed_contractor.full_name = 'Um, Mai'
+    permit2.licensed_contractor.save
+
+  	permit3 = FactoryGirl.create(:permit,
   		permit_kind:"EW",permit_subkind:"QZ")
-  	FactoryGirl.create(:permit,licensee_full_name:'Mu, Joe',
-  		licensee_license_kind:"MASTER PLANTER")
+    permit3.licensed_contractor.full_name = 'Bi, Moe'
+    permit3.licensed_contractor.save
+
+  	permit4 = FactoryGirl.create(:permit)
+    permit4.licensed_contractor.full_name = 'Mu, Joe'
+    permit4.licensed_contractor.license_type = "MASTER PLANTER"
+    permit4.licensed_contractor.save
+
   end
 
 
@@ -67,32 +79,32 @@ describe "Permit#search_for_contractors" do
   it "license type" do
   	value = "MASTER PLANTER"
   	search_params={:license_type.to_s => value}
-  	permits = Permit.search_for_contractors(search_params)
-  	permits.count.should eq(1)
-		permits[0].licensee_license_kind.should eq(value)
+  	contractors = Permit.search_for_contractors(search_params)
+  	contractors.count.should eq(1)
+		contractors[0].license_type.should eq(value)
   end
 
   it "permit type" do
   	value = "EW/QZ"
     search_params = {:permit_type.to_s => value}	  	
-  	permits = Permit.search_for_contractors(search_params)
-  	permits.count.should eq(1)
-	  permits[0].permit_kind.should eq(value[0,2])
-	  permits[0].permit_subkind.should eq(value[3,2])
+  	contractors = Permit.search_for_contractors(search_params)
+  	contractors.count.should eq(1)
+	  contractors[0].full_name.should eq('Bi, Moe')
   end
 
 end
-
+ 
 describe "Permit.create_or_update_permit" do
 
   before(:each) do
     @old_permit = FactoryGirl.attributes_for(
                     :permit,
-                    licensee_full_name:'Richards, Sue', 
                     permit_job_number:"0101010101",
                     permit_issuance_date:(Date.today - 100)
                   )
-    FactoryGirl.create(:permit, @old_permit)
+    permit_old = FactoryGirl.create(:permit, @old_permit)
+    permit_old.licensed_contractor.full_name = 'Richards, Sue'
+    permit_old.licensed_contractor.save
   end
 
   it "must add new record when given new permit_job_number" do
