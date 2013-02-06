@@ -36,17 +36,7 @@ class SearchesController < ApplicationController
 
   def contractors_post (search = {})
 
-    case search[:sort_by]
-      when "Licensee"     then permits_order =
-        "full_name, license_type, max(recent_filing_date) DESC"
-      when "License-Type"  then permits_order =
-        "license_type, business_name, full_name, max(recent_filing_date) DESC"
-      when "Business-Name" then permits_order =
-        "business_name, license_type, full_name, max(recent_filing_date) DESC"
-    #  when "Permit-Count"  then permits = permits.where(?:value)
-      else
-        permits_order = ''
-    end
+
     
     search_message = 'Given Search Parameter(s): '
     search.delete('utf8')
@@ -58,11 +48,8 @@ class SearchesController < ApplicationController
     contractor_parameters = {}
     contractor_parameters[:search_message] = search_message
 
-    contractors = Permit.search_for_contractors(search)
-    contractors = contractors.select("full_name").select("business_name").select("phone").select("license_type").select("license_number")  
-    contractors = contractors.select("max(permit_issuance_date) as freshness_date")
-    contractors = contractors.group("full_name").group("business_name").group("phone").group("license_type").group("license_number")
-    contractors = contractors.order(permits_order) if permits_order.present?
+    contractors = LicensedContractor.search(search)
+
     contractor_parameters[:search_relation] = contractors
     contractor_parameters
   end
