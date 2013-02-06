@@ -33,39 +33,70 @@
 				.controls
 					= text_field_tag 'community_district', nil, placeholder:"Needs dropdown"
 			%br/
-			Select only Permittees with these Work Attributes
-			.control-group
-				= label_tag 'licensee_type',nil,class:'control-label'
-				.controls				
-					- license_type_options = options_for_select(["ADMIN/NO WORK", "DEMOLITION CONTRACTOR", "FIRE SUPPRESSION CONTRACTOR", "GENERAL CONTRACTOR", "HOME IMPROVEMENT CONTRACTOR", "MASTER PLUMBER", "OIL BURNER INSTALLER", "OWNER", "SIGN HANGER" ])
-					= select_tag 'license_type',license_type_options, include_blank:true, placeholder:"Needs Dropdown"
-			.control-group
-				= label_tag 'sort_by',nil,class:'control-label'
-				.controls
-					- sort_by_options = options_for_select(["Licensee", "License-Type", "Business-Name", "Permit-Count" ])
-					= select_tag 'sort_by',sort_by_options, include_blank:true
-			.control-group
-				= label_tag 'work_type',nil,class:'control-label'
-				.controls
-					- work_type_options = grouped_options_for_select( |
-					{"ALTERATION" => {"[all]" => "AL"},  |
-					"DEMOLITION & REMOVAL" => {"[all]" => "DM"}, |
-					"EQUIPMENT WORK" => {"[all]" => "EW", "Boiler" => "EW/BL",  |
-					"Fire Alarm" => "EW/FA", "Fuel Burning" => "EW/FB", |
-					"Fire Suppression" => "EW/FP", "Fuel Storage" => "EW/FS", |
-					"Mechanical/HVAC" => "EW/MH", "Other" => "EW/OT", |
-					"Stand pipe" => "EW/SD", "Sprinkler" => "EW/SP"},  |					
-					"CONSTRUCTION EQUIPMENT" => {"[all]" => "EQ", "Chute" => "EQ/CH", |
-					"Fence" => "EQ/FN", "Other" => "EQ/OT",  "Scaffold" => "EQ/SF", |
-					"Sidewalk shed" => "EQ/SH"}, |					
-					"New Building" => {"[all]" => "NB"},  |
-					"PLUMBING" => {"[all]" => "PL"},  |
-					"SIGN" => {"[all]" => "SG"},  |
-					"FOUNDATION/EARTHWORK" => {"[all]" => "FO", "Earthwork Only" => "FO/EA"} |
-					}) |
-					= select_tag 'work_type',work_type_options, include_blank:true	
 			
-			%input.btn#contractors{type:"submit",formmethod:'post',formaction:"/searches",name:'contractors', title:"Find Licensed Contractors.", value:'Find Contractors'}
-			%input.btn#agents{type:"submit",formmethod:'post',formaction:"/searches",name:'agents', title:"Find Legal Representatives.", value:'Find Agents'}
-			%input.btn#suppliers{type:"submit",formmethod:'post',formaction:"/searches",name:'suppliers', title:"Find Sellers of products and unlicensed services.", value:'Find Suppliers'}
-			%input.btn#owners{type:"submit",formmethod:'post',formaction:"/searches",name:'owners', title:"Find Property Owners.", value:'Find Owners'} 
+			.accordion#more-search-attributes
+									
+				.accordion-group
+					.accordion-heading
+						%a.accordion-toggle{'data-toggle'=>'collapse', 
+						'data-parent'=>'#more-search-attributes',
+						title:"Find Licensed Contractors.",
+						'href'=>'#contractor-attributes'} Contractors
+					.collapse.indent#contractor-attributes
+						Select only Permittees with these Work Attributes
+						.control-group
+							= label_tag 'licensee_type',nil,class:'control-label'
+							.controls				
+								- license_type_options = options_for_select(["ADMIN/NO WORK", "DEMOLITION CONTRACTOR", "FIRE SUPPRESSION CONTRACTOR", "GENERAL CONTRACTOR", "HOME IMPROVEMENT CONTRACTOR", "MASTER PLUMBER", "OIL BURNER INSTALLER", "OWNER", "SIGN HANGER" ])
+								= select_tag 'license_type',license_type_options, include_blank:true, placeholder:"Needs Dropdown"
+						.control-group
+							= label_tag 'sort_by',nil,class:'control-label'
+							.controls
+								- sort_by_options = options_for_select(["Licensee", "License-Type", "Business-Name", "Permit-Count" ])
+								= select_tag 'sort_by',sort_by_options, include_blank:true
+						.control-group
+							= label_tag 'work_type',nil,class:'control-label'
+							.controls
+								- work_type_options = grouped_options_for_select( |
+								{"ALTERATION" => {"[all]" => "AL"},  |
+								"DEMOLITION & REMOVAL" => {"[all]" => "DM"}, |
+								"EQUIPMENT WORK" => {"[all]" => "EW", "Boiler" => "EW/BL",  |
+								"Fire Alarm" => "EW/FA", "Fuel Burning" => "EW/FB", |
+								"Fire Suppression" => "EW/FP", "Fuel Storage" => "EW/FS", |
+								"Mechanical/HVAC" => "EW/MH", "Other" => "EW/OT", |
+								"Stand pipe" => "EW/SD", "Sprinkler" => "EW/SP"},  |					
+								"CONSTRUCTION EQUIPMENT" => {"[all]" => "EQ", "Chute" => "EQ/CH", |
+								"Fence" => "EQ/FN", "Other" => "EQ/OT",  "Scaffold" => "EQ/SF", |
+								"Sidewalk shed" => "EQ/SH"}, |					
+								"New Building" => {"[all]" => "NB"},  |
+								"PLUMBING" => {"[all]" => "PL"},  |
+								"SIGN" => {"[all]" => "SG"},  |
+								"FOUNDATION/EARTHWORK" => {"[all]" => "FO", "Earthwork Only" => "FO/EA"} |
+								}) |
+								= select_tag 'work_type',work_type_options, include_blank:true	
+						
+						%input.btn#contractors{type:"submit",formmethod:'post',formaction:"/searches",name:'contractors', value:'Find Contractors'}
+
+					.accordion-heading
+						%a.accordion-toggle{'data-toggle'=>'collapse', 
+						'data-parent'=>'#more-search-attributes',
+						 title:"Find Legal Representatives.",
+						'href'=>'#agent-attributes'} Agents
+					.collapse.indent#agent-attributes
+						%input.btn#agents{type:"submit",formmethod:'post',formaction:"/searches",name:'agents', value:'Find Agents'}
+
+					.accordion-heading
+						%a.accordion-toggle{'data-toggle'=>'collapse', 
+						'data-parent'=>'#more-search-attributes',
+						title:"Find Sellers of products and unlicensed services.",
+						'href'=>'#supplier-attributes'} Suppliers
+					.collapse.indent#supplier-attributes
+						%input.btn#suppliers{type:"submit",formmethod:'post',formaction:"/searches",name:'suppliers',  value:'Find Suppliers'}
+
+					.accordion-heading
+						%a.accordion-toggle{'data-toggle'=>'collapse', 
+						'data-parent'=>'#more-search-attributes',
+						title:"Find Property Owners.",
+						'href'=>'#owner-attributes'} Owners
+					.collapse.indent#owner-attributes
+						%input.btn#owners{type:"submit",formmethod:'post',formaction:"/searches",name:'owners', value:'Find Owners'} 
