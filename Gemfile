@@ -19,7 +19,7 @@ group :assets do
 #  gem 'therubyracer', :platforms => :ruby  #Uncomment first edit  in group :asset 
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
-  gem 'bootstrap-sass', '~> 2.2.1.0' #Added first edit
+  gem 'bootstrap-sass', '~> 2.2.2.0' #Added first edit
   gem 'uglifier', '>= 1.0.3'
   # gem 'will_paginate', '~> 3.0.3'
   gem 'bootstrap-will_paginate', '~> 0.0.6'

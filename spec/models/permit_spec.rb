@@ -64,9 +64,9 @@ describe "Permit#search_for_contractors" do
 
   end
 
-
+ 
   it "must return permit rows in the specified order" do
-  	search_params={:sort_by.to_s => "Contractor"}
+  	search_params={:sort_by.to_s => "Licensee"}
   	contractors = LicensedContractor.search(search_params)
   	contractors.should_not be_nil
   	contractors.count.should eq(4)
@@ -86,7 +86,7 @@ describe "Permit#search_for_contractors" do
 
   it "permit type" do
   	value = "EW/QZ"
-    search_params = {:permit_type.to_s => value}	  	
+    search_params = {:work_type.to_s => value}	  	
   	contractors = LicensedContractor.search(search_params)
   	contractors.count.should eq(1)
 	  contractors[0].full_name.should eq('Bi, Moe')

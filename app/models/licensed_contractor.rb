@@ -8,9 +8,9 @@ class LicensedContractor < ActiveRecord::Base
   def self.search(search_params={})
     # Start ActiveRecord query
     
-    case search_params[:sort_by]
+    case search_params[:sort_by.to_s]
       when "Licensee"     then permits_order =
-        "full_name, license_type, license_number DESC"
+        "full_name, license_type"
       when "License-Type"  then permits_order =
         "license_type, business_name, full_name"
       when "Business-Name" then permits_order =
@@ -33,7 +33,7 @@ class LicensedContractor < ActiveRecord::Base
         when :community_district.to_s then licensed_contractors = licensed_contractors.where(:property_buildings => {community_board:value})
         #Other
         when :license_type.to_s then licensed_contractors = licensed_contractors.where(license_type:value)
-        when :permit_type.to_s
+        when :work_type.to_s
           licensed_contractors = licensed_contractors.where(:permits => {permit_kind:value[0,2]})
           licensed_contractors = licensed_contractors.where(:permits => {permit_subkind:value[3,2]}) if value.size > 2
         else

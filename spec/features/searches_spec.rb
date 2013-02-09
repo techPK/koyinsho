@@ -1,7 +1,7 @@
 require 'spec_helper'
 # include Capybara::DSL
 
-describe "Searches" do
+describe "Search by Location" do
 	context "webpage" do
 		before(:each) do
 			visit "/searches"
@@ -124,6 +124,38 @@ describe "Searches" do
 	      visit "/searches"		
 		end
 
+		describe "users" do
+		  it "must give error when Block is given without Borough" do
+		    fill_in 'Block', with:'1000'
+		    # click_button "Find Contractors"
+		    find_by_id('contractors').click
+		    uri = URI.parse(current_url)
+		    uri.path.should == '/searches'
+		    page.should have_xpath "/html/head[title='Koyinsho | Search']"
+		  end
+
+		  xit "must give error when Lot is given without Block"  do
+		    fill_in 'Lot', with:'91000'
+  		    click_button('Find Contractors')
+		    uri = URI.parse(current_url)
+		    uri.path.should == '/searches'
+		    page.should have_xpath "/html/head[title='Koyinsho | Search']"
+		  end
+		end
+
+		describe " search for Owners" do
+			it "must allow non-profit selection" do
+			  choose "include"
+			  choose "exclude"
+			  choose "only"
+		      # click_button "Find Owners"
+		      find_by_id('contractors').click
+		      uri = URI.parse(current_url)
+		      uri.path.should == '/searches'
+		      page.should have_xpath "/html/head[title='Koyinsho | Search']"
+			end
+		end
+ 
 		describe "Owners" do
 			xit "must NOT have a 'Find Owners' button" do
 				page.should_not have_button('Find Owners')
@@ -146,23 +178,6 @@ describe "Searches" do
 			xit "must have a button for 'Find Owners'"	do
 				page.should have_button('Find Owners')
 			end
-		end
-
-		it "must give error when Block is given without Borough" do
-		  fill_in 'Block', with:'1000'
-		  # click_button "Find Contractors"
-		  find_by_id('contractors').click
-		  uri = URI.parse(current_url)
-		  uri.path.should == '/searches'
-		  page.should have_xpath "/html/head[title='Koyinsho | Search']"
-		end
-
-		xit "must give error when Lot is given without Block"  do
-		  fill_in 'Lot', with:'91000'
-		  click_button('Find Contractors')
-		  uri = URI.parse(current_url)
-		  uri.path.should == '/searches'
-		  page.should have_xpath "/html/head[title='Koyinsho | Search']"
 		end
 
 	end

@@ -1,10 +1,10 @@
 require 'spec_helper'
-
+ 
 describe SearchesController do
 
   describe "POST 'contractors'" do
     it "returns http success" do
-      post 'contractors', search:{sort_by:'Contractor'}
+      post 'contractors', search:{sort_by:'Licensee'}
       response.should be_success
     end
   end

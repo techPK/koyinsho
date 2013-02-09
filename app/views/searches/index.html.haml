@@ -37,6 +37,15 @@
 			.accordion#more-search-attributes
 									
 				.accordion-group
+
+					.accordion-heading
+						%a.accordion-toggle{'data-toggle'=>'collapse', 
+						'data-parent'=>'#more-search-attributes',
+						 title:"Find Legal Representatives.",
+						'href'=>'#agent-attributes'} Agents
+					.collapse.indent#agent-attributes
+						%input.btn#agents{type:"submit",formmethod:'post',formaction:"/searches",name:'agents', value:'Find Agents'}
+
 					.accordion-heading
 						%a.accordion-toggle{'data-toggle'=>'collapse', 
 						'data-parent'=>'#more-search-attributes',
@@ -80,11 +89,30 @@
 					.accordion-heading
 						%a.accordion-toggle{'data-toggle'=>'collapse', 
 						'data-parent'=>'#more-search-attributes',
-						 title:"Find Legal Representatives.",
-						'href'=>'#agent-attributes'} Agents
-					.collapse.indent#agent-attributes
-						%input.btn#agents{type:"submit",formmethod:'post',formaction:"/searches",name:'agents', value:'Find Agents'}
-
+						title:"Find Property Owners.",
+						'href'=>'#owner-attributes'} Owners
+					.collapse.indent#owner-attributes
+						%fieldset
+							%legend{'font-size' => '14'}
+								Non-Profits
+								=radio_button_tag :non_profits, 'include', true, {class:'btn'}
+								=label_tag :non_profits_include, "Include", {class:'btn'}
+								=radio_button_tag :non_profits, 'exclude', false, {class:'btn'}
+								=label_tag :non_profits_exclude, "Exclude", {class:'btn'}
+								=radio_button_tag :non_profits, 'only', false, {class:'btn btn'}
+								=label_tag :non_profits_only, "Only", {class:'btn'}
+						%fieldset
+							%legend{'font-size' => '14'}
+								Owner-Business-Types
+								=check_box_tag :owner_individuals, "Y", true, {class:'btn'}
+								=label_tag :owner_individuals, "Individuals", {class:'btn'}
+								=check_box_tag :owner_partnerships, 'Y', true, {class:'btn'}
+								=label_tag :owner_partnerships, "Partnerships", {class:'btn'}
+								=check_box_tag :owner_corporations, 'Y', true, {class:'btn'}
+								=label_tag :owner_corporations, "Corporations", {class:'btn'}
+								=check_box_tag :owner_condops, 'Y', true, {class:'btn'}
+								=label_tag :owner_condops, "Condo/Co-op", {class:'btn'}
+						%input.btn#suppliers{type:"submit",formmethod:'post',formaction:"/searches",name:'owners',  value:'Find Owners'}
 					.accordion-heading
 						%a.accordion-toggle{'data-toggle'=>'collapse', 
 						'data-parent'=>'#more-search-attributes',
@@ -92,11 +120,3 @@
 						'href'=>'#supplier-attributes'} Suppliers
 					.collapse.indent#supplier-attributes
 						%input.btn#suppliers{type:"submit",formmethod:'post',formaction:"/searches",name:'suppliers',  value:'Find Suppliers'}
-
-					.accordion-heading
-						%a.accordion-toggle{'data-toggle'=>'collapse', 
-						'data-parent'=>'#more-search-attributes',
-						title:"Find Property Owners.",
-						'href'=>'#owner-attributes'} Owners
-					.collapse.indent#owner-attributes
-						%input.btn#owners{type:"submit",formmethod:'post',formaction:"/searches",name:'owners', value:'Find Owners'} 
